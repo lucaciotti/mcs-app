@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('description')->nullable();
+            $table->unsignedBigInteger('warehouse_id');
             $table->timestamps();
+
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')
+                ->onUpdate('cascade')->onDelete('cascade');   
         });
     }
 

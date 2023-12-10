@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ticket');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('warehouse_id');
+            $table->unsignedBigInteger('ubic_id');
             $table->double('qty');
             $table->timestamps();
 
@@ -35,6 +36,9 @@ return new class extends Migration
                 ->onUpdate('cascade')->onDelete('cascade'); 
 
             $table->foreign('warehouse_id')->references('id')->on('warehouses')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->foreign('ubic_id')->references('id')->on('ubications')
                 ->onUpdate('cascade')->onDelete('cascade'); 
         });
     }

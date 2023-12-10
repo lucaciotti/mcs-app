@@ -14,14 +14,10 @@ class Warehouse extends Model implements Auditable
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function stocks(): HasMany
-    {
-        return $this->hasMany(ProductStock::class, 'warehouse_id', 'id');
-    }
 
-    public function stocks_archive(): HasMany
+    public function ubications(): HasMany
     {
-        return $this->hasMany(ProductStockArchive::class, 'warehouse_id', 'id');
+        return $this->hasMany(Ubication::class,'warehouse_id', 'id');
     }
 
     public function inventoryMeasurement(): HasMany

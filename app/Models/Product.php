@@ -12,6 +12,8 @@ class Product extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     public function stocks(): HasMany
     {
         return $this->hasMany(ProductStock::class, 'product_id', 'id');

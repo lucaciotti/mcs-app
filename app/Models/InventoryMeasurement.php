@@ -12,6 +12,8 @@ class InventoryMeasurement extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
 
     public function product(): HasOne
     {

@@ -16,7 +16,7 @@ $leftSidebar = [
         'icon'        => 'fas fa-boxes',
     ],
     [
-        'text'        => ' Magazzini',
+        'text'        => ' Magazzini & Ubicazioni',
         'url'         => 'warehouses',
         'icon'        => 'fas fa-warehouse',
     ],

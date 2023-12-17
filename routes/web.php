@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
     Route::get('/warehouses', [App\Http\Controllers\WarehouseController::class, 'index'])->name('warehouses');
+    Route::get('/warehouses/{id}/ubications', [App\Http\Controllers\WarehouseController::class, 'indexUbic'])->name('ubications');
     Route::get('/inventory_tickets', [App\Http\Controllers\InventaryController::class, 'print_tickets'])->name('inventory_tickets');
 });
 

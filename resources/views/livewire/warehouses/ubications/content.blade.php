@@ -17,7 +17,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Lista magazzini</h3>
+                <h3 class="card-title">Lista ubicazioni</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Font Size Smaller" id="card-text-size">
                         <i class="fas fa-text-height fa-xs"></i>
@@ -39,10 +39,10 @@
                     <br>
                     <button class="btn btn-sm btn-outline-danger" onclick="Livewire.emit('refreshDatatable');">Aggiorna
                         la tabella</button>
-                </div>
-                @endif --}}
+                </div> --}}
+                {{-- @endif --}}
                 <div style="">
-                    <livewire:warehouses.warehouses-table />
+                    <livewire:warehouses.ubications.ubication-table warehouse_id='{{ $warehouse->id }}'/>
                 </div>
             </div>
         </div>
@@ -54,8 +54,8 @@
             <div class="card-body">
                 {{-- @permission('xlsimport-create') --}}
                 <button class="btn btn-outline-success btn-block"
-                    onclick="Livewire.emit('modal.open', 'warehouses.warehouse-modal-edit')">
-                    <span class="fa fa-edit"></span> Crea Magazzino
+                    onclick="Livewire.emit('modal.open', 'warehouses.ubications.ubication-modal-edit',{'warehouse_id': {{ $warehouse->id }}})">
+                    <span class="fa fa-edit"></span> Crea Ubicazione
                 </button>
                 {{-- @endpermission --}}
             </div>

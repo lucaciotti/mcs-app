@@ -54,7 +54,7 @@
             <div class="card-body">
                 {{-- @permission('xlsimport-create') --}}
                 <button class="btn btn-outline-success btn-block"
-                    onclick="Livewire.emit('modal.open', 'warehouses.ubications.ubication-modal-edit',{'warehouse_id': {{ $warehouse->id }}})">
+                    onclick="Livewire.emit('modal.open', 'warehouses.ubications.ubication-modal-edit',{'id': null, 'warehouse_id': {{ $warehouse->id }}})">
                     <span class="fa fa-edit"></span> Crea Ubicazione
                 </button>
                 {{-- @endpermission --}}

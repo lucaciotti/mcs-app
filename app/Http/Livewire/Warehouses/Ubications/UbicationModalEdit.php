@@ -22,7 +22,7 @@ class UbicationModalEdit extends Modal
     public $description;
 
     protected $rules = [
-        'code' => 'required',
+        'code' => 'required|unique:ubications',
         'description' => 'required',
     ];
 

@@ -22,7 +22,7 @@ class WarehouseModalEdit extends Modal
     public $description;
 
     protected $rules = [
-        'code' => 'required',
+        'code' => 'required|unique:warehouses',
         'description' => 'required',
     ];
 

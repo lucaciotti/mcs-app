@@ -14,6 +14,7 @@ class InventorySessionTicket extends Model implements Auditable
     use HasFactory;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $dates = ['date_printed'];
 
 
     public function inventorySessionWarehouse(): HasOne

@@ -47,7 +47,7 @@ $firstPage=true;
                     <th>Inventario: {{ $ticket->inventorySessionWarehouse->inventorySession->month }}/{{ $ticket->inventorySessionWarehouse->inventorySession->year }}</th>
                 </tr>
                 <tr style="height:40px">
-                    <th>{{ $ticket->date_printed }}</th>
+                    <th>{{ $ticket->date_printed->format('d/m/Y') }}</th>
                     <th><canvas id="canvas1" width="10" height="10" style="border:3px solid #000000;"></canvas> &nbsp;INVENTARIATO</th>
                 </tr>
                 <tr style="height:60px">
@@ -56,8 +56,9 @@ $firstPage=true;
                     </td>
                 </tr>
                 <tr style="height:120px">
-                    <td colspan="2" style="font-size: large; text-align: left;">Cod. Articolo:&nbsp;&nbsp; ___________________________________ <br><br><br>Qta:&nbsp;&nbsp; _____________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  UM: ______</td>
-                    <td>Mag: {{ $ticket->inventorySessionWarehouse->warehouse->code }} <br><br>Ubicazione: <br>______________</td>
+                    <td style="font-size: large; text-align: left;">Cod. Articolo:<br><br><br>&nbsp; ________________________________________ <br><br></td>
+                    <td style="font-size: large;">Qta:<br><br>&nbsp; ____________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>UM: ______<br><br></td>
+                    <td>Mag: {{ $ticket->inventorySessionWarehouse->warehouse->code }} <br><br>Ubicazione: <br><br>______________<br><br></td>
                 </tr>
             </table>
             

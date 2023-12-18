@@ -4,6 +4,7 @@ namespace App\Http\Livewire\PdfReports;
 
 use App\Helpers\PdfReport;
 use App\Models\Attribute;
+use App\Models\InventorySessionTicket;
 use App\Models\PlannedTask;
 use App\Models\PlanType;
 use Arr;
@@ -13,12 +14,8 @@ use WireElements\Pro\Components\Modal\Modal;
 
 class GenerateReports extends Modal
 {
-    public $tasks_ids;
-    public $type_id;
     public $reportKey;
-    public $order_tasks;
-    public $filter_on_tasks;
-    public $planName;
+    public $ticketToPrintIds;
     
     public $reports = [
         'plan' => 'Distinta Pianificazioni (da completare)',
@@ -31,17 +28,14 @@ class GenerateReports extends Modal
     public $title = 'Report PDF';
     public $pdfReport;
 
-    protected function do_report() 
+    protected function do_inv_report() 
     {
+        $ticketsToPrint = InventorySessionTicket::whereIn('id', $this->ticketToPrintIds)->with('inventorySessionWarehouse')->get();
         $title = "Tagliandini Inventario";
         $subTitle = '';
         $view = 'mcslide._exports.pdf.inventory_tickets';
         $data = [
-            // 'planName' => $planName,
-            // 'dtMin' => $dtMin,
-            // 'dtMax' => $dtMax,
-            // 'tasks' => $tasks,
-            // 'total_tasks' => $sum_total_tasks,
+            'ticketsToPrint' => $ticketsToPrint,
         ];
         // dd($data);
         $this->pdfReport = $title . '-' . $subTitle . '_' . Carbon::now()->format('YmdHis') . '.pdf';
@@ -50,10 +44,11 @@ class GenerateReports extends Modal
         $pdf->save(storage_path('app/public/tmp_pdf/' . $this->pdfReport));
     }
 
-    public function mount()
+    public function mount($reportKey, $params)
     {
-        $reportKey = '';
-        $reportCall = 'do_'.$reportKey.'report';
+        $this->reportKey = $reportKey;
+        $this->ticketToPrintIds = (array_key_exists('ticketToPrintIds', $params)) ? $params['ticketToPrintIds'] : [];
+        $reportCall = 'do_'.$reportKey.'_report';
         if (is_callable([$this, $reportCall])) {
             $this->$reportCall();
         }
@@ -68,7 +63,7 @@ class GenerateReports extends Modal
         // $delete = unlink(base_path('public/tmp_pdf/' . $this->pdfReport));
         $delete = unlink(storage_path('app/public/tmp_pdf/' . $this->pdfReport));
         if($delete){
-            $this->close();
+            $this->close(true);
         }
     }
 

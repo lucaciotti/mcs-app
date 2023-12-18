@@ -8,7 +8,7 @@
 
 @section('content-fluid')
 {{-- @if ($planType) --}}
-<livewire:inventory-ticket.content />
+<livewire:inventory.tickets.content />
 {{-- @endif --}}
 @stop
 

@@ -17,7 +17,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Lista taglianini invetario</h3>
+                <h3 class="card-title">Lista sessioni invetario</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Font Size Smaller" id="card-text-size">
                         <i class="fas fa-text-height fa-xs"></i>
@@ -41,26 +41,24 @@
                         onclick="Livewire.dispatch('refreshDatatable');">Aggiorna
                         la tabella</button>
                 </div>
-                @endif
+                @endif --}}
                 <div style="">
-                    <livewire:warehouses.warehouses-table />
-                </div> --}}
+                    <livewire:inventory.tickets.inv-sessions-table />
+                </div>
             </div>
         </div>
     </x-slot:content>
 
     <x-slot:extraContent>
-        <div class="card">
+        {{-- <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-                {{-- @permission('xlsimport-create') --}}
                 <button class="btn btn-outline-success btn-block"
                     onclick="Livewire.emit('modal.open', 'pdf-reports.generate-reports')">
-                    <span class="fa fa-edit"></span> Genera PDF Tagliandini
+                    <span class="fa fa-print"></span> Genera PDF Tagliandini
                 </button>
-                {{-- @endpermission --}}
             </div>
-        </div>
+        </div> --}}
     </x-slot:extraContent>
 
 </x-layouts.dynamic-content>

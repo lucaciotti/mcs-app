@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\InventoryTicket;
+namespace App\Http\Livewire\Inventory\Tickets;
 
 use App\Http\Livewire\Layouts\DynamicContent;
 
@@ -17,7 +17,7 @@ class Content extends DynamicContent
 
     public function render()
     {
-        return view('livewire.inventory-ticket.content');
+        return view('livewire.inventory.tickets.content');
     }
 
     public function tableHasToBeRefreshed()

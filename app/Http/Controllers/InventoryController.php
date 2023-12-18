@@ -11,8 +11,8 @@ class InventoryController extends Controller
         return view('mcslide.inventory.sessions');
     }
 
-    public function print_tickets(Request $req)
+    public function invTickets(Request $req)
     {
-        return view('mcslide.inventory_tickets');
+        return view('mcslide.inventory.tickets');
     }
 }

@@ -31,7 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
     Route::get('/warehouses', [App\Http\Controllers\WarehouseController::class, 'index'])->name('warehouses');
     Route::get('/warehouses/{id}/ubications', [App\Http\Controllers\WarehouseController::class, 'indexUbic'])->name('ubications');
-    Route::get('/inventory_tickets', [App\Http\Controllers\InventaryController::class, 'print_tickets'])->name('inventory_tickets');
+    Route::get('/config/inventory/sesions', [App\Http\Controllers\InventoryController::class, 'confSessions'])->name('inventory_sessions');
+    Route::get('/inventory_tickets', [App\Http\Controllers\InventoryController::class, 'print_tickets'])->name('inventory_tickets');
 });
 
 Route::name('user::')->group(function () {

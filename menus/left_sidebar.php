@@ -27,7 +27,7 @@ $leftSidebar = [
     ],
     [
         'text'        => ' Sessione Inventario',
-        'url'         => 'inventary_session',
+        'url'         => 'config/inventory/sesions',
         'icon'        => 'fas fa-dolly-flatbed',
     ],
     [

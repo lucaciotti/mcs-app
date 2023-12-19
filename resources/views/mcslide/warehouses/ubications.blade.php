@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Ubicazioni')
 
 @section('content_header')
 <h1>Lista Ubicazioni</h1>

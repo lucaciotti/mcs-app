@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Tickets Inv')
 
 @section('content_header')
 <h1>Tickets Inventario</h1>

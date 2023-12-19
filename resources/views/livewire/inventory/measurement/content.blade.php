@@ -21,7 +21,7 @@
                     
                     @if ($ubication)
                     <hr>
-                    <x-adminlte-input name="qta" label="Qta Inv:" placeholder="qta" type="number" error-key="qta" wire:model.lazy="qta" igroup-size="sm" min=1 max=100>
+                    <x-adminlte-input name="qta" label="Qta Inv:" placeholder="qta" type="number" error-key="qta" wire:model.lazy="qta" class="text-right" min=1 max=100>
                         <x-slot name="appendSlot">
                             <div class="input-group-text bg-dark">
                                 {{ $umProd }}
@@ -41,7 +41,7 @@
         <div class="card">        
             <div class="card-body">
                 <button type="button" class="btn btn-default btn-block float-left" wire:click="resetInv">Reset</button>
-                <br>
+                <br><br>
                 @if ($qta)
                     <button type="submit" class="btn btn-primary btn-block" wire:click="save">Salva</button>
                 @endif

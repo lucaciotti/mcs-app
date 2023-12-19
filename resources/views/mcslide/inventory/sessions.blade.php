@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Config Inv')
 
 @section('content_header')
 <h1>Configura Sessioni di Inventario</h1>

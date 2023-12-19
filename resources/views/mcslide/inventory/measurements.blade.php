@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Inventario')
 
 @section('content_header')
 <h1>Misurazioni Inventariali </h1>

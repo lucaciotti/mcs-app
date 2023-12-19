@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Utenti')
 
 @section('content_header')
 <h1>Configurazone Utenti</h1>

@@ -52,9 +52,9 @@
             <!-- /.card-header -->
             <div class="card-body">
                 {{-- @permission('xlsimport-create') --}}
-                <button class="btn btn-outline-success btn-block"
-                    onclick="Livewire.emit('modal.open', 'plan-import-file.plan-import-file-modal');">
-                    <span class="fa fa-edit"></span> Importa Prodotti
+                <button class="btn btn-outline-warning btn-block"
+                    onclick="Livewire.emit('modal.open', 'products-import-file.imports-modal-edit');">
+                    <span class="fa fa-file-import"></span> Importa Prodotti/Stock
                 </button>
                 {{-- @endpermission --}}
             </div>

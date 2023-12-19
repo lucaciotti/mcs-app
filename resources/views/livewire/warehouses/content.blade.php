@@ -57,6 +57,11 @@
                     onclick="Livewire.emit('modal.open', 'warehouses.warehouse-modal-edit')">
                     <span class="fa fa-edit"></span> Crea Magazzino
                 </button>
+
+                <button class="btn btn-outline-warning btn-block"
+                    onclick="Livewire.emit('modal.open', 'warehouses-import-file.imports-modal-edit');">
+                    <span class="fa fa-file-import"></span> Importa Mag./Ubic.
+                </button>
                 {{-- @endpermission --}}
             </div>
         </div>

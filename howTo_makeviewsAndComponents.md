@@ -22,3 +22,7 @@ apt install libfontconfig1 libxrender1
 
 docker exec -u root ibp-oms-laravel.test-1 apt update
 docker exec -u root ibp-oms-laravel.test-1 apt install libxrender1
+
+
+sail artisan mak:model InventorySessionWarehouse --migration
+sail artisan make:migration add_num_ticket --table='inventory_session_tickets'

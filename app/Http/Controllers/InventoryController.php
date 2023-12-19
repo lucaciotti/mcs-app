@@ -15,4 +15,9 @@ class InventoryController extends Controller
     {
         return view('mcslide.inventory.tickets');
     }
+
+    public function invMeasurements(Request $req)
+    {
+        return view('mcslide.inventory.measurements');
+    }
 }

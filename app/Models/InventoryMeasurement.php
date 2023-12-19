@@ -25,6 +25,11 @@ class InventoryMeasurement extends Model implements Auditable
         return $this->hasOne(Warehouse::class, 'id', 'warehouse_id');
     }
 
+    public function ubication(): HasOne
+    {
+        return $this->hasOne(Ubication::class, 'id', 'ubic_id');
+    }
+
     public function inventorySession(): HasOne
     {
         return $this->hasOne(InventorySession::class, 'id', 'inventory_session_id');

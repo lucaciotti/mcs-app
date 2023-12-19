@@ -5,10 +5,13 @@ namespace App\Imports;
 use App\Models\Product;
 use App\Models\ProductImportFile;
 use App\Models\ProductStock;
+use App\Models\Ubication;
 use App\Models\User;
+use App\Models\Warehouse;
 use App\Notifications\DefaultMessageNotify;
 use Auth;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Collection;
 use Log;
 use Maatwebsite\Excel\Concerns\RemembersChunkOffset;
@@ -38,13 +41,20 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $codProd = $row[0];
-            $descr = $row[1];
-            $um = $row[2];
-            $codMag = $row[3];
-            $codUbi = $row[4];
-            $year = $row[5];
-            $stockQta = $row[6];
+            $codUbi = $row[0];
+            $codProd = $row[1];
+            $descr = $row[2];
+            $um = 'PZ';
+            $codMag = ucfirst(substr($row[0], 0 ,1));
+            $year = (new DateTime())->format('y');
+            $stockQta = $row[4];
+
+            if($codMag==''){
+                $codMag = '00';
+            }
+            if ($codUbi == '') {
+                $codUbi = '00';
+            }
 
             $warehouse = Warehouse::where('code', $codMag)->first();
             if (!$warehouse) {
@@ -53,6 +63,7 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
                     'description' => 'Mag. ' . $codMag
                 ]);
             }
+
             $ubic = Ubication::where('code', $codUbi)->first();
             if (!$ubic) {
                 $ubic=Ubication::create([
@@ -67,17 +78,17 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
                 $prod = Product::create([
                     'code' => $codProd,
                     'description' => $descr,
-                    'um' => $um
+                    'unit' => $um
                 ]);
             } else {
                 $prod->description = $descr;
-                $prod->um = $um;
+                $prod->unit = $um;
                 $prod->save();
             }
 
             $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
             if(!$stock){
-                Stock::create([
+                ProductStock::create([
                     'product_id' => $prod->id,
                     'ubic_id' => $ubic->id,
                     'year' => $year,

@@ -26,7 +26,9 @@
 
     <x-slot name="buttons">
         <button type="button" class="btn btn-default float-left" wire:click="$emit('modal.close')">Cancella</button>
-        <button type="button" class="btn btn-default" onclick="Livewire.emit('slide-over.open', 'audits.audits-slide-over', {'ormClass': '{!! class_basename(get_class($invSessionWarehouses)) !!}', 'ormId': {{ $invSessionWarehouses->id }}});"><i>Ultima Modifica:</i> <span class="fa fa-history pr-1"></span><strong>{{ $invSessionWarehouses->updated_at->format('d-m-Y') }}</strong></button>
+        @if ($invSessionWarehouses)
+            <button type="button" class="btn btn-default" onclick="Livewire.emit('slide-over.open', 'audits.audits-slide-over', {'ormClass': '{!! class_basename(get_class($invSessionWarehouses)) !!}', 'ormId': {{ $invSessionWarehouses->id }}});"><i>Ultima Modifica:</i> <span class="fa fa-history pr-1"></span><strong>{{ $invSessionWarehouses->updated_at->format('d-m-Y') }}</strong></button>
+        @endif
         <button type="submit" class="btn btn-primary">Genera PDF Tagliandini</button>
     </x-slot>
 </x-wire-elements-pro::bootstrap.modal>

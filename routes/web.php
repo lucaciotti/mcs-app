@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/config/inventory/sesions', [App\Http\Controllers\InventoryController::class, 'confSessions'])->name('inventory_sessions');
     Route::get('/inventory/tickets', [App\Http\Controllers\InventoryController::class, 'invTickets'])->name('inventory_tickets');
+    Route::get('/inventory/measurements', [App\Http\Controllers\InventoryController::class, 'invMeasurements'])->name('inventory_measurements');
 });
 
 Route::name('user::')->group(function () {

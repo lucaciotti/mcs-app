@@ -14,7 +14,7 @@ $leftSidebar = [
     ],
     [
         'text'        => ' Misurazioni Inventario',
-        'url'         => 'inventory/measurments',
+        'url'         => 'inventory/measurements',
         'icon'        => 'fas fa-tasks',
     ],
     [

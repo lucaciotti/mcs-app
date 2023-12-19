@@ -4,12 +4,14 @@ namespace App\Jobs;
 
 use App\Imports\WarehousesImport;
 use App\Models\WarehouseImportFile;
+use Excel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Log;
 
 class WarehouseJobImport implements ShouldQueue
 {

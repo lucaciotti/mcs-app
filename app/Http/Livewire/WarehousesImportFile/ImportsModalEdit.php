@@ -4,8 +4,12 @@ namespace App\Http\Livewire\WarehousesImportFile;
 
 use App\Jobs\WarehouseJobImport;
 use App\Models\WarehouseImportFile;
+use App\Notifications\DefaultMessageNotify;
+use Auth;
+use DateTime;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Notification;
 use WireElements\Pro\Components\Modal\Modal;
 use WireElements\Pro\Concerns\InteractsWithConfirmationModal;
 
@@ -60,6 +64,7 @@ class ImportsModalEdit extends Modal
         $extradata = [
             'status' => 'File Caricato',
             'path' => $this->path,
+            'date_upload' => new DateTime()
         ];
         $importFile = WarehouseImportFile::create(array_merge($validatedData, $extradata));
 

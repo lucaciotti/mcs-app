@@ -31,17 +31,21 @@
 
         <div class="card">        
             <div class="card-body">
-                <button type="button" class="btn btn-default btn-block float-left" wire:click="resetInv">Reset</button>
-                <br><br>
-                @if ($qty)
                     <button type="submit" class="btn btn-primary btn-block" wire:click="save">Salva</button>
-                @endif
+                
             </div>
         </div>
 
     </x-slot:content>
 
     <x-slot:extraContent>
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+                <button type="button" class="btn btn-default btn-block float-left" wire:click="resetInv">Reset</button>
+            </div>
+        </div>
+        
     </x-slot:extraContent>
 
 </x-layouts.dynamic-content>

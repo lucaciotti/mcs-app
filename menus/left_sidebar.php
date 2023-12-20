@@ -22,7 +22,7 @@ $leftSidebar = [
         'text'        => ' Gestione Inventario Simple',
         'url'         => 'inventory/stats_simple',
         'icon'        => 'fas fa-chart-bar',
-        'laratrust'  => ['completed-read'],
+        'laratrust'  => ['users-create'],
     ],
 
     [

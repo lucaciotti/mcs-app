@@ -9,12 +9,12 @@
     </h6>
 @stop
 
-{{-- @section('content')
+@section('content')
 <div class="row">
 
     <div class="col-lg-12 ">
         <br><br><br>
-
+{{-- 
         @foreach ($planTiles as $planRow)
             <div class="row">
                 @if (count($planRow)==2)
@@ -55,22 +55,22 @@
                     </div>
                 @endif
             </div>
-        @endforeach
+        @endforeach --}}
         
-        <hr>
+        {{-- <hr> --}}
         <div class="row ">
             <div class="col-lg-6 col-6 ml-auto">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>Importa</h3>
+                        <h3>Misurazioni Inventario</h3>
 
-                        <p>Pianificazioni da XLS</p>
+                        {{-- <p>Pianificazioni da XLS</p> --}}
                     </div>
                     <div class="icon">
-                        <i class="fa fa-file-excel"></i>
+                        <i class="fa fa-tasks"></i>
                     </div>
-                    <a href="{{ route('plan_xls') }}" class="small-box-footer">Visualizza <i
+                    <a href="{{ route('inventory_measurements') }}" class="small-box-footer">Visualizza <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
@@ -79,17 +79,18 @@
                 <!-- small box -->
                 <div class="small-box" style="background-color: rgb(222, 190, 132)">
                     <div class="inner">
-                        <h3>Exporta</h3>
+                        <h3>Stampa Tagliandini</h3>
 
-                        <p>Pianificazioni in XLS</p>
+                        {{-- <p>Pianificazioni in XLS</p> --}}
                     </div>
                     <div class="icon">
-                        <i class="fa fa-download"></i>
+                        <i class="fa fa-barcode"></i>
                     </div>
-                    <a href="#" class="small-box-footer" onclick="Livewire.emit('modal.open', 'xls-export.xls-all-export-modal');">Visualizza <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('inventory_tickets') }}" class="small-box-footer">Visualizza <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
 </div>
 </div>
-@stop --}}
+@stop

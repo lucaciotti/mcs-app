@@ -22,8 +22,8 @@ class InventorySessionTicket extends Model implements Auditable
         return $this->hasOne(InventorySessionWarehouse::class, 'id', 'inventory_session_warehouse_id');
     }
 
-    public function inventoryMeasurement(): BelongsTo
+    public function inventoryMeasurement(): HasOne
     {
-        return $this->belongsTo(InventoryMeasurement::class, 'inventory_ticket_id', 'id');
+        return $this->hasOne(InventoryMeasurement::class, 'inventory_ticket_id', 'id');
     }
 }

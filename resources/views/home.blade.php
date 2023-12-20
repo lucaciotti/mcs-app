@@ -63,14 +63,14 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>Misurazioni Inventario</h3>
+                        <h3>Inventario Semplificato</h3>
 
                         {{-- <p>Pianificazioni da XLS</p> --}}
                     </div>
                     <div class="icon">
                         <i class="fa fa-tasks"></i>
                     </div>
-                    <a href="{{ route('inventory_measurements') }}" class="small-box-footer">Visualizza <i
+                    <a href="{{ route('inventory_measurements_simple') }}" class="small-box-footer">Visualizza <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>

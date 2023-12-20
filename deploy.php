@@ -5,11 +5,11 @@ require 'recipe/laravel.php';
 require 'contrib/php-fpm.php';
 require 'contrib/npm.php';
 
-set('application', 'pNet');
+set('application', 'mcSlide');
 set('keep_releases', 2);
-set('repository', 'https://github.com/lucaciotti/ibp-oms.git');
+set('repository', 'https://github.com/lucaciotti/mcs-app.git');
 set('git_tty', true);
-set('php_fpm_version', '8.0');
+set('php_fpm_version', '8.1');
 
 set('use_relative_symlink', false);
 set('ssh_multiplexing', false);
@@ -17,9 +17,9 @@ set('ssh_multiplexing', false);
 host('dev')
     ->set('stage', 'dev')
     ->set('remote_user', 'root')
-    ->set('hostname', 'ibpoms.lucaciotti.space')
+    ->set('hostname', 'mcslide.lucaciotti.space')
     ->set('shared_files', ['.env', 'auth.json'])
-    ->set('deploy_path', '/var/www/ibp-oms.lucaciotti.space');
+    ->set('deploy_path', '/var/www/mcslide.lucaciotti.space');
 
 task('deploy', [
     'deploy:prepare',

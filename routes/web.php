@@ -35,6 +35,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/config/inventory/sesions', [App\Http\Controllers\InventoryController::class, 'confSessions'])->name('inventory_sessions');
     Route::get('/inventory/tickets', [App\Http\Controllers\InventoryController::class, 'invTickets'])->name('inventory_tickets');
     Route::get('/inventory/measurements', [App\Http\Controllers\InventoryController::class, 'invMeasurements'])->name('inventory_measurements');
+    Route::get('/inventory/stats', [App\Http\Controllers\InventoryController::class, 'invStats'])->name('inventory_stats');
+    Route::get('/inventory/exportxls_simple', [App\Http\Controllers\InventoryController::class, 'exportXlsSimple'])->name('exportxls_simple');
+
+    Route::get('/inventory/measurements_simple', [App\Http\Controllers\InventoryController::class, 'invMeasurementsSimple'])->name('inventory_measurements_simple');
+    Route::get('/inventory/stats_simple', [App\Http\Controllers\InventoryController::class, 'invStatsSimple'])->name('inventory_stats_simple');
 });
 
 Route::name('user::')->group(function () {

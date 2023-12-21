@@ -50,15 +50,19 @@ class MeasureSimpleTable extends DataTableComponent
             Column::make("Id", "id")
                 ->sortable(),
             Column::make("Prodotto", "product.code")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Descr. Prodotto", "product.description")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Ubicazione", "ubication")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("U.M.", "product.unit")
                 ->sortable(),
             Column::make("Qta Inv.", "qty")
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
             Column::make("Dt.Modifica", "updated_at")
                 ->format(
                     fn ($value, $row, Column $column) => '<span class="fa fa-history pr-1"></span>' . $value->format('d-m-Y')
@@ -68,7 +72,8 @@ class MeasureSimpleTable extends DataTableComponent
                 ->label(
                     fn ($row, Column $column) => $this->getAuditCreatedUser($row, $column)
                 )
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
         ];
     }
 

@@ -15,7 +15,7 @@
                         wire:model.lazy="codUbi" />
                     
                     <hr>
-                    <x-adminlte-input name="qty" label="Qta Inv:" placeholder="qty" type="number" error-key="qty" wire:model.lazy="qty"
+                    <x-adminlte-input name="qty" label="Qta Inv:" placeholder="qty" type="number" error-key="qty" wire:model.lazy="qty" inputmode="numeric"
                         class="text-right" min=1 max=100>
                         <x-slot name="appendSlot">
                             <div class="input-group-text bg-dark">

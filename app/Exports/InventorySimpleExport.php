@@ -11,11 +11,12 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
+class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
     protected $invIds;
 
@@ -37,15 +38,20 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
             $um = $row->product->unit;
             $ubi = $row->ubication;
             if(!in_array($idProd, $aProducts)){
-                $totQta = InventorySimple::where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
-                array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
-                array_push($aProducts, $idProd);
-                array_push($aUbi, $ubi);
-            } else {
-                if(!in_array($ubi, $aUbi)) {
-                    $totQta = InventorySimple::where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
+                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
+                if($totQta>0){
                     array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
-                    array_push($aUbi, $ubi);                    
+                    array_push($aProducts, $idProd);
+                    array_push($aUbi, $ubi);
+                }
+            } else {
+                $refUbi=$codProd.'-'.$ubi;
+                if(!in_array($refUbi, $aUbi)) {
+                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
+                    if ($totQta > 0) {
+                        array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
+                        array_push($aUbi, $refUbi);                    
+                    }
                 }
             }
         }
@@ -72,10 +78,17 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
         ];
     }
 
+    public function columnFormats(): array
+    {
+        return [
+            'A' => NumberFormat::FORMAT_TEXT,
+        ];
+    }
+
 
     public function map($row): array
     {
-        $body = [$row[0], $row[1], $row[2] ?? '', $row[3], $row[4]];
+        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3], $row[4]];
         return $body;
     }
 }

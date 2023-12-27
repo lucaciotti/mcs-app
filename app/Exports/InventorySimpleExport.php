@@ -37,15 +37,15 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
             $descr = $row->product->description;
             $um = $row->product->unit;
             $ubi = $row->ubication;
+            $refUbi = $codProd . '-' . $ubi;
             if(!in_array($idProd, $aProducts)){
                 $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
                 if($totQta>0){
                     array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
                     array_push($aProducts, $idProd);
-                    array_push($aUbi, $ubi);
+                    array_push($aUbi, $refUbi);
                 }
             } else {
-                $refUbi=$codProd.'-'.$ubi;
                 if(!in_array($refUbi, $aUbi)) {
                     $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
                     if ($totQta > 0) {

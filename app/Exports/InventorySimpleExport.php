@@ -81,7 +81,8 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_TEXT,
+            'A' => NumberFormat::FORMAT_NUMBER,
+            // 'A' => NumberFormat::FORMAT_TEXT,
         ];
     }
 

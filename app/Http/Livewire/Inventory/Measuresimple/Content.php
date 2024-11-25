@@ -104,6 +104,7 @@ class Content extends DynamicContent
 
     public function toogleSearch()
     {
+        $this->reset(['product', 'codProd', 'search', 'listProds']);
         $this->isToogleSearch = !$this->isToogleSearch;
     }
 

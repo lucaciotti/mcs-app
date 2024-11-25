@@ -110,11 +110,10 @@
 
     .myDropdownDiv {
         position: absolute;
-        width: auto;
+        width: 96%;
         overflow-y: auto;
         /* padding-top: 5px; */
         margin-top: -12px;
-        margin-left: -15px;
         z-index: 10;
         /* background: white; */
         /* border-bottom-left-radius: 10px; */
@@ -130,6 +129,7 @@
     @media screen and (max-width: 500px) {
         .myDropdownDiv {
             width: auto;
+            margin-left: -15px;
         }
     }
 

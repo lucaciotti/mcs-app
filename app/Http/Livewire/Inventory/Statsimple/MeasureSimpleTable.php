@@ -105,6 +105,7 @@ class MeasureSimpleTable extends DataTableComponent
             'deleteRows' => 'Cancella Sparata',
             'hr1' => '---------------------------',
             'xlsExport' => 'Export Xls',
+            'csvExport' => 'Export CSV',
         ];
 
         return $actions;
@@ -121,6 +122,14 @@ class MeasureSimpleTable extends DataTableComponent
     {
         Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
         return redirect()->route('exportxls_simple');
+        // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
+        // dd($this->getSelected());
+    }
+
+    public function csvExport()
+    {
+        Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
+        return redirect()->route('exportcsv_simple');
         // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
         // dd($this->getSelected());
     }

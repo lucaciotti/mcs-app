@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class Content extends DynamicContent
 {
     public $refresh_table;
-    public $invSession_id;
+    public $invsession_id;
     public $invSessions;
 
     public $listeners = [
@@ -29,7 +29,7 @@ class Content extends DynamicContent
             }
             if($invSession) Session::put('inventory.session.id', $invSession->id);
         }
-        $this->invSession_id = Session::get('inventory.session.id');
+        $this->invsession_id = Session::get('inventory.session.id');
     }
 
     public function render()
@@ -38,8 +38,8 @@ class Content extends DynamicContent
         return view('livewire.inventory.statsimple.content');
     }
 
-    public function updatedSessionId(){
-        Session::put('inventory.session.id', $this->invSession_id);
+    public function updatedInvsessionId(){
+        Session::put('inventory.session.id', $this->invsession_id);
         $this->emit('refreshDatatable');
         $this->emit('clearSelected');
     }

@@ -4,8 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <div style="">
-                    <x-adminlte-select name="invSession_id" label="Sessioni Inventario" error-key="invSession_id"
-                        wire:model="invSession_id" style="text-align: center;" class="text-bold">
+                    <x-adminlte-select name="invsession_id" label="Sessioni Inventario" error-key="invsession_id" wire:model="invsession_id" style="text-align: center;" class="text-bold">
                         @foreach ($invSessions as $invSession)
                         <option value='{{ $invSession->id }}'>{{$invSession->description }} [<strong>{{ $invSession->month }} / {{ $invSession->year }}</strong>]</option>
                         @endforeach

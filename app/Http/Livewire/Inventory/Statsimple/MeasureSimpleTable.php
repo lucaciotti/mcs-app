@@ -22,6 +22,13 @@ class MeasureSimpleTable extends DataTableComponent
             ->where('inventory_session_id', $this->invSession_id);
     }
 
+    protected function getListeners()
+    {
+        return [
+            'clearSelected' => 'clearSelected',
+        ];
+    }
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')

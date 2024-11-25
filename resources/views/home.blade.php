@@ -12,7 +12,7 @@
 @section('content')
 <div class="row">
 
-    <div class="col-lg-12 ">
+    <div class="col-lg-12 col-12">
         <br><br><br>
 {{-- 
         @foreach ($planTiles as $planRow)
@@ -59,13 +59,12 @@
         
         {{-- <hr> --}}
         <div class="row ">
-            <div class="col-lg-6 col-6 ml-auto">
+            <div class="col-lg-6 col-12 ml-auto">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>Misurazioni Inventario</h3>
-
-                        {{-- <p>Pianificazioni da XLS</p> --}}
+                        <h3>Misurazioni</h3>
+                        <p>&nbsp;</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-barcode"></i>
@@ -74,13 +73,12 @@
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-6 col-6 ml-auto">
+            <div class="col-lg-6 col-12 ml-auto">
                 <!-- small box -->
                 <div class="small-box" style="background-color: rgb(222, 190, 132)">
                     <div class="inner">
                         <h3>Gestione Inventario</h3>
-
-                        {{-- <p>Pianificazioni da XLS</p> --}}
+                        <p>&nbsp;</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-tasks"></i>

@@ -45,9 +45,9 @@ class InventoryController extends Controller
             $req->session()->put('inventory.session.id', $id);
         } else {
             if(!$req->session()->has('inventory.session.id')){
-               $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('date_end', '>', Carbon::now())->first();
+               $invSession = InventorySession::where('active', true)->last();
                 if(!$invSession){
-                    $invSession = InventorySession::where('date_start', '<', Carbon::now())->first();
+                    $invSession = InventorySession::where('date_start', '<', Carbon::now())->last();
                 }
                 if($invSession) $req->session()->put('inventory.session.id', $invSession->id);
             }

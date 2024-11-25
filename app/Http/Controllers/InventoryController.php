@@ -36,6 +36,7 @@ class InventoryController extends Controller
         if(!$invSession){
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();
         }
+        if ($invSession) $req->session()->put('inventory.session.id', $invSession->id);
         return view('mcslide.inventory.measurements_simple', ['invSession' => $invSession]);
     }
 
@@ -45,9 +46,9 @@ class InventoryController extends Controller
             $req->session()->put('inventory.session.id', $id);
         } else {
             if(!$req->session()->has('inventory.session.id')){
-               $invSession = InventorySession::where('active', true)->last();
+               $invSession = InventorySession::where('active', true)->first();
                 if(!$invSession){
-                    $invSession = InventorySession::where('date_start', '<', Carbon::now())->last();
+                    $invSession = InventorySession::where('date_start', '<', Carbon::now())->first();
                 }
                 if($invSession) $req->session()->put('inventory.session.id', $invSession->id);
             }

@@ -27,7 +27,7 @@ use Maatwebsite\Excel\Concerns\WithColumnLimit;
 use Notification;
 use Str;
 
-class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, WithCalculatedFormulas, WithMultipleSheets, SkipsOnError, WithColumnLimit
+class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, SkipsEmptyRows, WithCalculatedFormulas, WithMultipleSheets, SkipsOnError, WithColumnLimit
 {
     protected $importedfile;
     protected $rowNum = 1;
@@ -41,13 +41,21 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
-            $codUbi = $row[0];
-            $codProd = $row[1];
-            $descr = $row[2];
-            $um = 'PZ';
-            $codMag = ucfirst(substr($row[0], 0 ,1));
-            $year = (new DateTime())->format('y');
-            $stockQta = $row[4];
+            // $codUbi = $row[0];
+            // $codMag = ucfirst(substr($row[0], 0 ,1));
+            // $codProd = $row[1];
+            // $descr = $row[2];
+            // $um = 'PZ';
+            // $stockQta = $row[4];
+            $codUbi = '';
+            $codMag = '';
+            $codProd = $row[0];
+            $descr = Str::upper($row[1]);
+            $um = Str::upper($row[2]);
+            $stockQta = $row[3];
+            $barcode = $row[4];
+
+            $year = (new DateTime())->format('Y');
 
             if($codMag==''){
                 $codMag = '00';
@@ -56,48 +64,70 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
                 $codUbi = '00';
             }
 
-            $warehouse = Warehouse::where('code', $codMag)->first();
-            if (!$warehouse) {
-                $warehouse = Warehouse::create([
-                    'code' => $codMag,
-                    'description' => 'Mag. ' . $codMag
-                ]);
+            try {
+                $warehouse = Warehouse::where('code', $codMag)->first();
+                if (!$warehouse) {
+                    $warehouse = Warehouse::create([
+                        'code' => $codMag,
+                        'description' => 'Mag. ' . $codMag
+                    ]);
+                }
+            } catch (\Throwable $th) {
+                report($th);
             }
 
-            $ubic = Ubication::where('code', $codUbi)->first();
-            if (!$ubic) {
-                $ubic=Ubication::create([
-                    'code' => $codUbi,
-                    'description' => 'Ubi. ' . $codUbi,
-                    'warehouse_id' => $warehouse->id
-                ]);
+            try {
+                $ubic = Ubication::where('code', $codUbi)->first();
+                if (!$ubic) {
+                    $ubic = Ubication::create([
+                        'code' => $codUbi,
+                        'description' => 'Ubi. ' . $codUbi,
+                        'warehouse_id' => $warehouse->id
+                    ]);
+                }
+            } catch (\Throwable $th) {
+                report($th);
+            }
+            
+
+            try {
+                $prod = Product::where('code', $codProd)->first();
+                if (!$prod) {
+                    $prod = Product::create([
+                        'code' => $codProd,
+                        'description' => $descr,
+                        'unit' => $um,
+                        'barcode' => $barcode
+                    ]);
+                } else {
+                    $prod->description = $descr;
+                    $prod->unit = $um;
+                    $prod->barcode = $barcode;
+                    $prod->save();
+                }
+            } catch (\Throwable $th) {
+                report($th);
+            }
+            
+
+            try {
+                $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
+                if (!$stock) {
+                    ProductStock::create([
+                        'product_id' => $prod->id,
+                        'ubic_id' => $ubic->id,
+                        'year' => $year,
+                        'stock' => $stockQta
+                    ]);
+                } else {
+                    $stock->stock = $stockQta;
+                    $stock->save();
+                }
+            } catch (\Throwable $th) {
+                report($th);
             }
 
-            $prod = Product::where('code', $codProd)->first();
-            if (!$prod) {
-                $prod = Product::create([
-                    'code' => $codProd,
-                    'description' => $descr,
-                    'unit' => $um
-                ]);
-            } else {
-                $prod->description = $descr;
-                $prod->unit = $um;
-                $prod->save();
-            }
-
-            $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
-            if(!$stock){
-                ProductStock::create([
-                    'product_id' => $prod->id,
-                    'ubic_id' => $ubic->id,
-                    'year' => $year,
-                    'stock' => $stockQta
-                ]);
-            } else {
-                $stock->stock = $stockQta;
-                $stock->save();
-            }
+            Log::info('Imported Product Code: '.$codProd);
         }
     }
 
@@ -129,6 +159,11 @@ class ProductsImport implements ToCollection, WithStartRow, SkipsEmptyRows, With
         return [
             0 => $this
         ];
+    }
+
+    public function batchSize(): int
+    {
+        return 500;
     }
 
     public function chunkSize(): int

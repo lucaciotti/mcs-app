@@ -43,10 +43,16 @@ class ProductsTable extends DataTableComponent
     {
         return [
             Column::make("Codice", "code")
+                ->searchable()
                 ->sortable(),
             Column::make("Descrizione", "description")
+            ->searchable()
                 ->sortable(),
             Column::make("UM", "unit")
+                ->searchable()
+                ->sortable(),
+            Column::make("Barcode", "barcode")
+            ->searchable()
                 ->sortable(),
             Column::make("Dt.Modifica", "updated_at")
                 ->format(

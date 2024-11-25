@@ -1,23 +1,22 @@
 <x-layouts.dynamic-content collapsed='{{ $collapsed }}'>
     <x-slot:content>
 
-        {{-- <div class="card">
+        <div class="card">
             <div class="card-body">
                 <div style="">
-                    <x-adminlte-select name="plantype_id" label="Tipo di Pianificazione" error-key="plantype_id"
-                        wire:model="plantype_id" style="text-align: center;" class="text-bold">
-                        @foreach ($plantypes as $plantype)
-                        <option value='{{ $plantype->id }}'><strong>{{ $plantype->name }}</strong> - {{
-                            $plantype->description }}</option>
+                    <x-adminlte-select name="invSession_id" label="Sessioni Inventario" error-key="invSession_id"
+                        wire:model="invSession_id" style="text-align: center;" class="text-bold">
+                        @foreach ($invSessions as $invSession)
+                        <option value='{{ $invSession->id }}'>{{$invSession->description }} [<strong>{{ $invSession->month }} / {{ $invSession->year }}</strong>]</option>
                         @endforeach
                     </x-adminlte-select>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Lista sessioni invetario</h3>
+                <h3 class="card-title">Lista misurazioni invetario</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Font Size Smaller" id="card-text-size">
                         <i class="fas fa-text-height fa-xs"></i>

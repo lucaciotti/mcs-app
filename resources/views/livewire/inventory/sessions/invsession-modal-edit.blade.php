@@ -7,17 +7,31 @@
     <div class="modal-body">
 
         <div class="row">
-            <x-adminlte-select name="year" label="Anno Inventario" error-key="year" wire:model="year" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6">
-                @foreach ($list_years as $value)
-                <option value='{{ $value }}'><strong>{{ $value }}</strong></option>
-                @endforeach
-            </x-adminlte-select>
+            @if($mode=='edit')
+                <x-adminlte-select name="year" label="Anno Inventario" error-key="year" wire:model="year" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6" disabled>
+                    @foreach ($list_years as $value)
+                    <option value='{{ $value }}'><strong>{{ $value }}</strong></option>
+                    @endforeach
+                </x-adminlte-select>
 
-            <x-adminlte-select name="month" label="Mese Inventario" error-key="month" wire:model="month" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6">
-                @foreach ($list_months as $key => $value)
-                <option value='{{ $key }}'><strong>{{ $value }}</strong></option>
-                @endforeach
-            </x-adminlte-select>
+                <x-adminlte-select name="month" label="Mese Inventario" error-key="month" wire:model="month" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6" disabled>
+                    @foreach ($list_months as $key => $value)
+                    <option value='{{ $key }}'><strong>{{ $value }}</strong></option>
+                    @endforeach
+                </x-adminlte-select>
+            @else
+                <x-adminlte-select name="year" label="Anno Inventario" error-key="year" wire:model="year" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6">
+                    @foreach ($list_years as $value)
+                    <option value='{{ $value }}'><strong>{{ $value }}</strong></option>
+                    @endforeach
+                </x-adminlte-select>
+
+                <x-adminlte-select name="month" label="Mese Inventario" error-key="month" wire:model="month" style="text-align: center;" class="text-bold" fgroup-class="col-lg-6">
+                    @foreach ($list_months as $key => $value)
+                    <option value='{{ $key }}'><strong>{{ $value }}</strong></option>
+                    @endforeach
+                </x-adminlte-select>
+            @endif
         </div>
         
         <x-adminlte-input name="description" label="Descrizione" placeholder="Descrizione" error-key="description" wire:model.lazy="description" />

@@ -3,13 +3,24 @@
 @section('title', 'Inventario')
 
 @section('content_header')
-<h1>Misurazioni Inventariali Semplificato</h1>
+<h1>Misurazioni Inventariali <i>@if($invSession) [{{ $invSession->month }}/{{ $invSession->year }}] @endif </i> </h1>
 @stop
 
 @section('content-fluid')
-{{-- @if ($planType) --}}
+@if ($invSession)
 <livewire:inventory.measuresimple.content />
-{{-- @endif --}}
+@else
+<div class="card">
+
+    <div class="card-body">
+        
+        <h3 class='text-danger'>Attenzione!</h3>
+        <h4>Nessuna Sessione Inventariale attualmente attiva</h4>
+
+    </div>
+
+</div>
+@endif
 @stop
 
 @push('js')

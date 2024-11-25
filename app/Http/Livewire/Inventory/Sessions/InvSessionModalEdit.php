@@ -45,21 +45,32 @@ class InvSessionModalEdit extends Modal
     public $active;
 
     public function rules(): array {
-        return
-        [
-            'year' => ['required','numeric'],
-            'month' => ['required','numeric', Rule::unique('inventory_sessions', 'month')->where('year', $this->year),],
-            'description' => 'required',
-            'date_start' => 'nullable|date',
-            'date_end' => 'nullable|date|after:date_start',
-            'active' => 'required',
-        ];
+        if ($this->mode == 'edit') {
+            return [
+                'year' => ['required', 'numeric'],
+                'month' => ['required', 'numeric'],
+                'description' => 'required',
+                'date_start' => 'nullable|date',
+                'date_end' => 'nullable|date|after:date_start',
+                'active' => 'required|unique:inventory_sessions,active,'. $this->invSession->id,
+            ];
+        } else {
+            return [
+                'year' => ['required', 'numeric'],
+                'month' => ['required', 'numeric', Rule::unique('inventory_sessions', 'month')->where('year', $this->year),],
+                'description' => 'required',
+                'date_start' => 'nullable|date',
+                'date_end' => 'nullable|date|after:date_start',
+                'active' => 'required|unique:inventory_sessions,active',
+            ];
+        }
     }
 
     public function messages()
     {
         return [
             'month.unique' => 'Sessione di inventario già presente per questa combinazione di mese / anno.',
+            'active.unique' => 'Sessione di inventario attiva già presente.',
         ];
     }
 
@@ -91,6 +102,18 @@ class InvSessionModalEdit extends Modal
 
     public function save()
     {
+        // if (!empty($this->invSession)) {
+        //     $rules = [
+        //         'year' => ['required','numeric'],
+        //         'month' => ['required','numeric'],
+        //         'description' => 'required',
+        //         'date_start' => 'nullable|date',
+        //         'date_end' => 'nullable|date|after:date_start',
+        //         'active' => 'required|unique',
+        //     ];
+        //     $validatedData = $this->validate($rules);
+        // } else {
+        // }
         $validatedData = $this->validate();
         try {
             DB::transaction(

@@ -63,25 +63,40 @@
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3>Inventario Semplificato</h3>
+                        <h3>Misurazioni Inventario</h3>
+
+                        {{-- <p>Pianificazioni da XLS</p> --}}
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-barcode"></i>
+                    </div>
+                    <a href="{{ route('inventory_measurements_simple') }}" class="small-box-footer">Visualizza <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-6 ml-auto">
+                <!-- small box -->
+                <div class="small-box" style="background-color: rgb(222, 190, 132)">
+                    <div class="inner">
+                        <h3>Gestione Inventario</h3>
 
                         {{-- <p>Pianificazioni da XLS</p> --}}
                     </div>
                     <div class="icon">
                         <i class="fa fa-tasks"></i>
                     </div>
-                    <a href="{{ route('inventory_measurements_simple') }}" class="small-box-footer">Visualizza <i
+                    <a href="{{ route('inventory_stats_simple') }}" class="small-box-footer">Visualizza <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-
-            <div class="col-lg-6 col-6 ml-auto">
-                <!-- small box -->
+            
+        </div>
+        
+        <div class="row ">
+            {{-- <div class="col-lg-6 col-6 ml-auto">
                 <div class="small-box" style="background-color: rgb(222, 190, 132)">
                     <div class="inner">
                         <h3>Stampa Tagliandini</h3>
-
-                        {{-- <p>Pianificazioni in XLS</p> --}}
                     </div>
                     <div class="icon">
                         <i class="fa fa-barcode"></i>
@@ -89,7 +104,7 @@
                     <a href="{{ route('inventory_tickets') }}" class="small-box-footer">Visualizza <i
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
+            </div> --}}
         </div>
 </div>
 </div>

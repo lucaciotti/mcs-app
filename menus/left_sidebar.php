@@ -13,42 +13,42 @@ $leftSidebar = [
         'laratrust'  => ['completed-read'],
     ],
     [
-        'text'        => ' Misurazioni Inventario Simple',
+        'text'        => ' Misurazioni Inventario',
         'url'         => 'inventory/measurements_simple',
         'icon'        => 'fas fa-tasks',
         'laratrust'  => ['completed-read'],
     ],
     [
-        'text'        => ' Gestione Inventario Simple',
+        'text'        => ' Gestione Inventario',
         'url'         => 'inventory/stats_simple',
         'icon'        => 'fas fa-chart-bar',
         'laratrust'  => ['users-create'],
     ],
 
-    [
-        'header' => 'Inventario Avanzato',
-        'classes'  => 'text-bold text-center',
-        'laratrust'  => ['users-create'],
-    ],
-    [
-        'text'        => ' Misurazioni Inventario Avanz.',
-        'url'         => 'inventory/measurements',
-        'icon'        => 'fas fa-tasks',
-        'laratrust'  => ['users-create'],
-    ],
-    [
-        'text'        => ' Gestione Inventario Avanz.',
-        // 'url'         => 'inventory/stats',
-        'url'         => '#',
-        'icon'        => 'fas fa-chart-bar',
-        'laratrust'  => ['users-create'],
-    ],
-    [
-        'text'        => ' Tagliandini Inventario',
-        'url'         => 'inventory/tickets',
-        'icon'        => 'fas fa-barcode',
-        'laratrust'  => ['users-create'],
-    ],
+    // [
+    //     'header' => 'Inventario Avanzato',
+    //     'classes'  => 'text-bold text-center',
+    //     'laratrust'  => ['users-create'],
+    // ],
+    // [
+    //     'text'        => ' Misurazioni Inventario Avanz.',
+    //     'url'         => 'inventory/measurements',
+    //     'icon'        => 'fas fa-tasks',
+    //     'laratrust'  => ['users-create'],
+    // ],
+    // [
+    //     'text'        => ' Gestione Inventario Avanz.',
+    //     // 'url'         => 'inventory/stats',
+    //     'url'         => '#',
+    //     'icon'        => 'fas fa-chart-bar',
+    //     'laratrust'  => ['users-create'],
+    // ],
+    // [
+    //     'text'        => ' Tagliandini Inventario',
+    //     'url'         => 'inventory/tickets',
+    //     'icon'        => 'fas fa-barcode',
+    //     'laratrust'  => ['users-create'],
+    // ],
 
     [
         'header' => 'Anagrafiche',
@@ -73,7 +73,7 @@ $leftSidebar = [
         'laratrust'  => ['users-create'],
     ],
     [
-        'text'        => ' Sessione Inventario Avanzato',
+        'text'        => ' Sessione Inventario',
         'url'         => 'config/inventory/sesions',
         'icon'        => 'fas fa-dolly-flatbed',
         'laratrust'  => ['users-create'],

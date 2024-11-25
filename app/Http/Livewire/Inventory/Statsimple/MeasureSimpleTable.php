@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Inventory\Statsimple;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
 use Session;
@@ -11,6 +12,15 @@ use Session;
 class MeasureSimpleTable extends DataTableComponent
 {
     protected $model = InventorySimple::class;
+
+    public $invSession_id;
+
+    public function builder(): Builder
+    {
+        $this->invSession_id = Session::get('inventory.session.id');
+        return InventorySimple::query()
+            ->where('inventory_session_id', $this->invSession_id);
+    }
 
     public function configure(): void
     {

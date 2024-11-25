@@ -3,13 +3,13 @@
 @section('title', 'Inventario')
 
 @section('content_header')
-<h1>Gestione Inventariali Semplificato </h1>
+<h1>Gestione Inventariali </h1>
 @stop
 
 @section('content-fluid')
-{{-- @if ($planType) --}}
+@if ($invSession)
 <livewire:inventory.statsimple.content />
-{{-- @endif --}}
+@endif
 @stop
 
 @push('js')

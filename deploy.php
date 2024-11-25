@@ -9,7 +9,7 @@ set('application', 'mcSlide');
 set('keep_releases', 2);
 set('repository', 'https://github.com/lucaciotti/mcs-app.git');
 set('git_tty', true);
-set('php_fpm_version', '8.1');
+set('php_fpm_version', '8.2');
 
 set('use_relative_symlink', false);
 set('ssh_multiplexing', false);

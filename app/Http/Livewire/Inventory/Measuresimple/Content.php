@@ -80,11 +80,14 @@ class Content extends DynamicContent
 
     public function updatedCodProd()
     {
-        $this->product = Product::where('code', $this->codProd)->orWhere('barcode', $this->codProd)->get();
-        if ($this->product->count()!=1) {
+        $records = Product::where('code', $this->codProd)->orWhere('barcode', $this->codProd)->get();
+        if (!$records || $records->count()!=1) {
             $this->addError('codProd', 'Il Prodotto NON è valido!');
             return;
+        } else {
+            $this->product = $records->first();
         }
+
         $this->product_id = $this->product->id;
         $this->codProd = $this->product->code;
         $this->descrProd = $this->product->description;
@@ -120,8 +123,8 @@ class Content extends DynamicContent
     public function searchListArt()
     {
         $this->listProds = Product::where('code', 'like', $this->search . '%')
-            ->orWhere('description', 'like', $this->search . '%')
-            ->orWhere('barcode', 'like', $this->search . '%')
+            ->orWhere('description', 'like', '%' . $this->search . '%')
+            ->orWhere('barcode', 'like', '%' . $this->search . '%')
             ->get()->toArray();
     }
 

@@ -59,11 +59,17 @@ class Content extends DynamicContent
 
     public function mount()
     {
+        $this->initInvSession();
+    }
+
+    public function initInvSession()
+    {
         $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('date_end', '>', Carbon::now())->where('active', true)->first();
         if (!$invSession) {
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();
         }
         $this->inventory_session_id = $invSession->id;
+        $this->emit('initfocus');
     }
     
     public function render()
@@ -143,13 +149,14 @@ class Content extends DynamicContent
     public function save(){
         $validatedData = $this->validate();
         InventorySimple::create($validatedData);
-        $this->reset();
+        $this->resetInv();
     }
 
     public function resetInv(){
         $this->reset();
         $this->resetErrorBag();
         $this->resetValidation();
+        $this->initInvSession();
     }
 
 }

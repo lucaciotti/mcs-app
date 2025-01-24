@@ -102,7 +102,7 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
                 } else {
                     $prod->description = $descr;
                     $prod->unit = $um;
-                    $prod->barcode = $barcode;
+                    if (!empty($barcode)) $prod->barcode = $barcode;
                     $prod->save();
                 }
             } catch (\Throwable $th) {

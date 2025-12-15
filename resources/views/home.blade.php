@@ -128,6 +128,41 @@
                 </div>
             </div> --}}
         </div>
+
+        <div id="reader">
+        
+        </div>
+        
+        <!-- Include the HTML5-QRCode Library -->
+        <!-- Adjust the path based on where you placed the HTML5-QRCode file -->
+        {{-- <script src="{{ asset('assets/html5-qrcode/html5-qrcode.min.js') }}"></script> --}}
+        {{-- <script type="text/javascript" src="https://unpkg.com/html5-qrcode"></script> --}}
+        
+        <script>
+            // Initialize the HTML5 QR Code Scanner
+                    let html5QRCodeScanner = new Html5QrcodeScanner(
+                        // Target element with the ID "reader" and configure settings
+                        "reader", {
+                            fps: 10, // Frames per second for scanning
+                            qrbox: {
+                                width: 200, // Width of the scanning box
+                                height: 200, // Height of the scanning box
+                            },
+                        }
+                    );
+                
+                    // Function executed when the scanner successfully reads a QR Code
+                    function onScanSuccess(decodedText, decodedResult) {
+                        // Redirect to the scanned QR Code link
+                        // window.location.href = decodedText;
+                        console.log(decodedText);
+                        // Clear the scanner area after the action is performed
+                        html5QRCodeScanner.clear();
+                    }
+                
+                    // Render the QR Code scanner
+                    html5QRCodeScanner.render(onScanSuccess);
+        </script>
 </div>
 </div>
 @stop

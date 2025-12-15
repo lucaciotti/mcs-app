@@ -73,6 +73,7 @@
 @endpush
 
 @push('js')
+    <script src="{{ asset('assets/html5-qrcode/html5-qrcode.min.js') }}"></script>
     <script src="{{ asset('vendor/wire-elements-pro/js/overlay-component.js') }}"></script>
     <script>
         $(document).ready(function () {

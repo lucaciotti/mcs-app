@@ -23,6 +23,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 import '../../vendor/wire-elements/pro/resources/js/overlay-component.js'
+// import 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'
 
 
 /**

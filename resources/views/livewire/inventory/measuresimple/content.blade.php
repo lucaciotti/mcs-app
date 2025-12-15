@@ -93,6 +93,16 @@
             <div class="card-body">
                 <button type="button" class="btn btn-default btn-block float-left" wire:click="resetInv">Reset</button>
             </div>
+        </div><div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+                {{-- @permission('xlsimport-create') --}}
+                <button class="btn btn-outline-success btn-block"
+                    onclick="Livewire.emit('modal.open', 'inventory.measuresimple.cam-barcode-reader')">
+                    <span class="fa fa-edit"></span> Scan
+                </button>
+                {{-- @endpermission --}}
+            </div>
         </div>
         
     </x-slot:extraContent>

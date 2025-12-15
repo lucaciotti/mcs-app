@@ -52,7 +52,8 @@ class InvSessionModalEdit extends Modal
                 'description' => 'required',
                 'date_start' => 'nullable|date',
                 'date_end' => 'nullable|date|after:date_start',
-                'active' => 'required|unique:inventory_sessions,active,'. $this->invSession->id,
+                // 'active' => 'required|unique:inventory_sessions,active,'. $this->invSession->id,
+                'active' => ['required', Rule::unique('inventory_sessions', 'active')->where('active', true),],
             ];
         } else {
             return [

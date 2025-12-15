@@ -6,6 +6,7 @@
     <!-- No padding will be applied because the component attribute "content-padding" is set to false -->
     <div class="modal-body">
 
+        <div id="result"></div>
         <div id="reader">
             
         </div>
@@ -30,11 +31,13 @@
                 // Redirect to the scanned QR Code link
                 // window.location.href = decodedText;
                 console.log(decodedText);
+                document.getElementById('result').innerHtml = decodedText;
                 // Clear the scanner area after the action is performed
                 html5QRCodeScanner.clear();
             }
         
             // Render the QR Code scanner
+            html5QRCodeScanner.applyVideoConstraints({facingMode: "environment"});
             html5QRCodeScanner.render(onScanSuccess);
         </script>
 

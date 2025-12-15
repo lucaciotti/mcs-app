@@ -37,7 +37,13 @@
             }
         
             // Render the QR Code scanner
-            html5QRCodeScanner.applyVideoConstraints({facingMode: "environment"});
+            // html5QRCodeScanner.applyVideoConstraints({facingMode: "environment"}).then(html5QRCodeScanner.render(onScanSuccess));
+            setTimeout(function () {
+            html5QRCodeScanner.applyVideoConstraints({
+            facingMode: "environment"
+            // advanced: [{ zoom: 2.0 }],
+            });
+            }, 2000);
             html5QRCodeScanner.render(onScanSuccess);
         </script>
 

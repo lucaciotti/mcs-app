@@ -22,8 +22,8 @@
                 "reader", {
                     fps: 24, // Frames per second for scanning
                     qrbox: {
-                        width: 500, // Width of the scanning box
-                        height: 500, // Height of the scanning box
+                        width: 300, // Width of the scanning box
+                        height: 300, // Height of the scanning box
                     },
                 }
             );
@@ -43,8 +43,8 @@
             // html5QRCodeScanner.applyVideoConstraints({facingMode: "environment"}).then(html5QRCodeScanner.render(onScanSuccess));
             setTimeout(function () {
             html5QRCodeScanner.applyVideoConstraints({
-            facingMode: "environment"
-            // advanced: [{ zoom: 2.0 }],
+            facingMode: "environment", focusMode: {ideal: "continuous"}
+            , zoom: 2.0,
             });
             }, 2000);
             html5QRCodeScanner.render(onScanSuccess);

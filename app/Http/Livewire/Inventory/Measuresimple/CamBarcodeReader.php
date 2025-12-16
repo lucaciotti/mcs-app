@@ -10,6 +10,23 @@ class CamBarcodeReader extends Modal
     public $title;
     public $mode;
 
+    protected $listeners  = [
+        'barcodeScanned' => 'onBarcodeScanned',
+        'testBarcode' => 'onTest'];
+
+    public function onBarcodeScanned($barcode)
+    {
+        // dd($barcode);
+        $this->emitUp('barcodeScanned', $barcode);
+        $this->close();
+    }
+
+    public function onTest()
+    {
+        dd($this);
+        // $this->close();
+    }
+
 
     public function mount()
     {

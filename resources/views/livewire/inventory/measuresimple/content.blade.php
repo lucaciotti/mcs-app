@@ -9,12 +9,16 @@
                     @if(!$isToogleSearch)
                         <x-adminlte-input name="codProd" label="Codice Prodotto:" placeholder="Codice Prodotto" error-key="codProd" wire:model.lazy="codProd">
                             <x-slot name="appendSlot">
-                                <button class="btn btn-sm btn-outline-primary" type="button" wire:click="toogleSearch" data-toggle="tooltip"
-                                    data-placement="bottom" title="Ricerca Libera">
-                                    <i class="fas fa-fw fa-search"></i>
+                                <button class="btn btn-sm btn-outline-primary" type="button" onclick="Livewire.emit('modal.open', 'inventory.measuresimple.cam-barcode-reader')" data-toggle="tooltip"
+                                    data-placement="bottom" title="Camera Scan">
+                                    <i class="fas fa-fw fa-camera"></i>
                                 </button>
                             </x-slot>
                         </x-adminlte-input>
+                        <button class="btn btn-outline-primary btn-lg btn-block" type="button" wire:click="toogleSearch" data-toggle="tooltip"
+                            data-placement="bottom" title="Ricerca Libera">
+                            <i class="fas fa-fw fa-search"></i>Ricerca Libera
+                        </button>
                     @else
                         <x-adminlte-input name="search" label="Ricerca Libera:" placeholder="Ricerca Libera" error-key="search" wire:model="search">
                             <x-slot name="appendSlot">
@@ -93,18 +97,7 @@
             <div class="card-body">
                 <button type="button" class="btn btn-default btn-block float-left" wire:click="resetInv">Reset</button>
             </div>
-        </div><div class="card">
-            <!-- /.card-header -->
-            <div class="card-body">
-                {{-- @permission('xlsimport-create') --}}
-                <button class="btn btn-outline-success btn-block"
-                    onclick="Livewire.emit('modal.open', 'inventory.measuresimple.cam-barcode-reader')">
-                    <span class="fa fa-edit"></span> Scan
-                </button>
-                {{-- @endpermission --}}
-            </div>
-        </div>
-        
+        </div>        
     </x-slot:extraContent>
 
 </x-layouts.dynamic-content>

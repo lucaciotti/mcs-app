@@ -1,4 +1,4 @@
-<x-wire-elements-pro::bootstrap.modal on-submit="save" :content-padding="false">
+<x-wire-elements-pro::bootstrap.modal :content-padding="false">
     <x-slot name="title">
         <h4 class="modal-title">{{ $title }}</h4>
     </x-slot>
@@ -6,11 +6,13 @@
     <!-- No padding will be applied because the component attribute "content-padding" is set to false -->
     <div class="modal-body">
 
-        <div id="result"></div>
+        {{-- <div id="result"></div> --}}
+        {{-- <span id="result"> </span> --}}
         <div id="reader">
             
         </div>
-
+    {{-- <button class="btn btn-sm btn-outline-danger" onclick="Livewire.emit('barcodeScanned', 'prova');">Aggiorna
+    la tabella</button> --}}
         <!-- Include the HTML5-QRCode Library -->
         
         <script>
@@ -18,10 +20,10 @@
             let html5QRCodeScanner = new Html5QrcodeScanner(
                 // Target element with the ID "reader" and configure settings
                 "reader", {
-                    fps: 10, // Frames per second for scanning
+                    fps: 24, // Frames per second for scanning
                     qrbox: {
-                        width: 200, // Width of the scanning box
-                        height: 200, // Height of the scanning box
+                        width: 500, // Width of the scanning box
+                        height: 500, // Height of the scanning box
                     },
                 }
             );
@@ -31,7 +33,8 @@
                 // Redirect to the scanned QR Code link
                 // window.location.href = decodedText;
                 console.log(decodedText);
-                document.getElementById('result').innerHtml = decodedText;
+                window.Livewire.emit('barcodeScanned', decodedText);
+                // document.getElementById('result').innerText = decodedText;
                 // Clear the scanner area after the action is performed
                 html5QRCodeScanner.clear();
             }
@@ -49,8 +52,8 @@
 
     </div>
 
-    <x-slot name="buttons">
+    {{-- <x-slot name="buttons">
         <button type="button" class="btn btn-default float-left" wire:click="$emit('modal.close')">Cancella</button>
         <button type="submit" class="btn btn-primary">Salva</button>
-    </x-slot>
+    </x-slot> --}}
 </x-wire-elements-pro::bootstrap.modal>

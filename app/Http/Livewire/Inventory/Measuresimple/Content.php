@@ -46,6 +46,19 @@ class Content extends DynamicContent
     public $ubic_id;
     public $qty;
 
+    public $listeners = [
+        'dynamic-content.collapse' => 'collapse',
+        'dynamic-content.expande' => 'expande',
+        'barcodeScanned' => 'onBarcodeScanned'
+    ];
+
+    public function onBarcodeScanned($barcode)
+    {
+        // dd($barcode);
+        $this->codProd = $barcode;
+        $this->updatedCodProd();
+    }
+
     public function rules(): array
     {
         return

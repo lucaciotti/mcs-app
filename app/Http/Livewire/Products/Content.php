@@ -21,13 +21,17 @@ class Content extends DynamicContent
 
     public function mount()
     {
+        $this->years = range(2022, 2030);
+        if (!Session::has('products.stock.year')) {
+            $this->stock_year = (new DateTime())->format('Y');
+            Session::put('products.stock.year', $this->stock_year);
+        }
         $this->stock_year = Session::get('products.stock.year');
         $this->order_by_stock = Session::get('products.stock.order_by_stock');
     }
 
     public function render()
     {
-        $this->years = [2024, 2025, 2026];
         return view('livewire.products.content');
     }
 

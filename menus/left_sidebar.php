@@ -21,6 +21,18 @@ $leftSidebar = [
     [
         'text'        => ' Gestione Inventario',
         'url'         => 'inventory/stats_simple',
+        'icon'        => 'fas fa-clipboard-list',
+        'laratrust'  => ['users-create'],
+    ],
+
+    [
+        'header' => 'Statistiche',
+        'classes'  => 'text-bold text-center',
+        'laratrust'  => ['users-create'],
+    ],
+    [
+        'text'        => 'Statistiche Inventariali',
+        'url'         => 'inventory/stats_simple_detailed',
         'icon'        => 'fas fa-chart-bar',
         'laratrust'  => ['users-create'],
     ],

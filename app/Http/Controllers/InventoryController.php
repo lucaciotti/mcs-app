@@ -58,6 +58,23 @@ class InventoryController extends Controller
         return view('mcslide.inventory.stats_simple', ['invSession' => $invSession]);
     }
 
+    public function invStatsSimpleDetailed(Request $req, $id=null)
+    {
+        if (!empty($id)) {
+            $req->session()->put('inventory.session.id', $id);
+        } else {
+            if(!$req->session()->has('inventory.session.id')){
+               $invSession = InventorySession::where('active', true)->first();
+                if(!$invSession){
+                    $invSession = InventorySession::where('date_start', '<', Carbon::now())->first();
+                }
+                if($invSession) $req->session()->put('inventory.session.id', $invSession->id);
+            }
+        }
+        $invSession = ($req->session()->has('inventory')) ? InventorySession::find($req->session()->get('inventory.session.id')) : null;
+        return view('mcslide.inventory.stats_simple_detailed', ['invSession' => $invSession]);
+    }
+
     public function exportXlsSimple(Request $req)
     {
         // dd();

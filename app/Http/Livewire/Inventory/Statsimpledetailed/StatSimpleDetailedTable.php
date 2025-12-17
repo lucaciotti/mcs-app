@@ -58,8 +58,8 @@ class StatSimpleDetailedTable extends DataTableComponent
         $query = $query->selectRaw('SUM(qty) as qta_inv');
         $query = $query->selectRaw('IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0) as qta_giac');
         $query = $query->selectRaw('SUM(qty)-IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0) as delta');
-        $query = $query->selectRaw('SUM(qty)*products.cost as cost_inv');
-        $query = $query->selectRaw('(SUM(qty)-IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0))*products.cost as cost_delta');
+        $query = $query->selectRaw('SUM(qty)*MAX(products.cost) as cost_inv');
+        $query = $query->selectRaw('(SUM(qty)-IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0))*MAX(products.cost) as cost_delta');
         $query = $query->leftJoin('product_stocks', function ($join) {
             $join->on('product_stocks.product_id', '=', 'inventory_simples.product_id');
             $join->where('product_stocks.year', '=', $this->stock_year);

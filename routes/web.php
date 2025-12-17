@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products', [App\Http\Controllers\ProductsController::class, 'index'])->name('products');
     Route::get('/warehouses', [App\Http\Controllers\WarehouseController::class, 'index'])->name('warehouses');
     Route::get('/warehouses/{id}/ubications', [App\Http\Controllers\WarehouseController::class, 'indexUbic'])->name('ubications');
+    Route::get('/warehouses/{id}/types', [App\Http\Controllers\WarehouseController::class, 'indexType'])->name('ubications');
 
     Route::get('/config/inventory/sesions', [App\Http\Controllers\InventoryController::class, 'confSessions'])->name('inventory_sessions');
 

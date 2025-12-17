@@ -18,4 +18,11 @@ class WarehouseController extends Controller
 
         return view('mcslide.warehouses.ubications', ['warehouse' => $warehouse]);
     }
+
+    public function indexType(Request $req, $id)
+    {
+        $warehouse = Warehouse::find($id);
+
+        return view('mcslide.warehouses.types', ['warehouse' => $warehouse]);
+    }
 }

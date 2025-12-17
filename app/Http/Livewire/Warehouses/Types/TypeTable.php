@@ -1,37 +1,47 @@
 <?php
 
-namespace App\Http\Livewire\Warehouses;
+namespace App\Http\Livewire\Warehouses\Types;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Warehouse;
+use App\Models\WarehouseType;
+use Illuminate\Database\Eloquent\Builder;
 use Laratrust;
 use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
-class WarehousesTable extends DataTableComponent
+class TypeTable extends DataTableComponent
 {
-    protected $model = Warehouse::class;
+    protected $model = WarehouseType::class;
+    protected $warehouse_id;
+
+    public function mount($warehouse_id)
+    {
+        $this->warehouse_id = intval($warehouse_id);
+    }
+
+    public function builder(): Builder
+    {
+        return WarehouseType::query()
+            ->where('warehouse_id', $this->warehouse_id);
+    }
 
     public function configure(): void
     {
         $this->setPrimaryKey('id')
-            ->setAdditionalSelects(['warehouses.id as id'])
+            ->setAdditionalSelects(['warehouse_types.id as id'])
             ->setPerPage(25)
             ->setPerPageAccepted([25, 50, 75, 100])
             ->setTdAttributes(function (Column $column, $row, $columnIndex, $rowIndex) {
                 if ($column->getTitle() == '') {
                     return [
                         'default' => false,
-                        // 'class' => 'w-5',
                         'style' => 'width:30%;'
                     ];
                 }
                 if ($column->getTitle() == 'Codice') {
                     return [
-                        'class' => 'text-bold btn',
-                        // 'onclick' => "Livewire.emit('modal.open', 'warehouses.ubications.planned-task-modal-edit', {'id': " . $row->id . "});",
-                        // 'onclick' => "window.location.href='/warehouses/".$row->id."/ubications';",
+                        'class' => 'text-bold',
                     ];
                 }
                 if ($column->getTitle() == "Dt.Modifica") {
@@ -50,47 +60,25 @@ class WarehousesTable extends DataTableComponent
         if (Laratrust::isAbleTo('config-update')) {
             array_push(
                 $actionColumns,
-                LinkColumn::make('Reparti')
-                    ->title(fn($row) => '<span class="fa fa-edit pr-1"></span>Reparti')
-                    ->location(fn($row) => '#')
-                    ->attributes(function ($row) {
-                        return [
-                            'class' => 'btn btn-info btn-xs mr-2 ',
-                            // 'onclick' => "Livewire.emit('modal.open', 'warehouses.warehouse-modal-edit', {'id': " . $row->id . "});"
-                            'onclick' => "window.location.href='/warehouses/".$row->id."/types';",
-                        ];
-                    }),
-                LinkColumn::make('Ubicazioni')
-                    ->title(fn($row) => '<span class="fa fa-edit pr-1"></span>Ubicazioni')
-                    ->location(fn($row) => '#')
-                    ->attributes(function ($row) {
-                        return [
-                            'class' => 'btn btn-primary btn-xs mr-2 ',
-                            // 'onclick' => "Livewire.emit('modal.open', 'warehouses.warehouse-modal-edit', {'id': " . $row->id . "});"
-                            'onclick' => "window.location.href='/warehouses/".$row->id."/ubications';",
-                        ];
-                    }),
                 LinkColumn::make('Modifica')
                 ->title(fn ($row) => '<span class="fa fa-edit pr-1"></span>Modifica')
                 ->location(fn ($row) => '#')
                     ->attributes(function ($row) {
                         return [
                             'class' => 'btn btn-default btn-xs mr-2 ',
-                            'onclick' => "Livewire.emit('modal.open', 'warehouses.warehouse-modal-edit', {'id': " . $row->id . "});"
+                            'onclick' => "Livewire.emit('modal.open', 'warehouses.types.type-modal-edit', {'id': " . $row->id . ", 'warehouse_id': ".$this->warehouse_id."});"
                         ];
                     }),
             );
         }
 
-        $columns = [
-            // Column::make("#", "id")
-            //     ->sortable(),
+        return [
             Column::make("Codice", "code")
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
             Column::make("Descrizione", "description")
-            ->sortable()
-                ->searchable(),
+                ->sortable(),
+            Column::make("Magazzino", "warehouse.code")
+                ->sortable(),
             Column::make("Dt.Modifica", "updated_at")
             ->format(
                 fn ($value, $row, Column $column) => '<span class="fa fa-history pr-1"></span>' . $value->format('d-m-Y')
@@ -98,10 +86,6 @@ class WarehousesTable extends DataTableComponent
                 ->sortable(),
             ButtonGroupColumn::make('')
                 ->buttons($actionColumns),
-
-            // Column::make("Updated at", "updated_at")
-            //     ->sortable(),
         ];
-        return $columns;
     }
 }

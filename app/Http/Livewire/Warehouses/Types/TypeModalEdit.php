@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Livewire\Warehouses;
+namespace App\Http\Livewire\Warehouses\Types;
 
 use App\Models\Ubication;
 use App\Models\User;
-use App\Models\Warehouse;
+use App\Models\WarehouseType;
 use App\Notifications\DefaultMessageNotify;
 use Auth;
 use DB;
 use Notification;
 use WireElements\Pro\Components\Modal\Modal;
 
-class WarehouseModalEdit extends Modal
+class TypeModalEdit extends Modal
 {
-    public $warehouse;
+    public $warehouse_id;
+    public $type;
 
     public $title;
     public $mode;
@@ -22,21 +23,22 @@ class WarehouseModalEdit extends Modal
     public $description;
 
     protected $rules = [
-        'code' => 'required|unique:warehouses',
+        'code' => 'required|unique:warehouse_types,warehouse_id',
         'description' => 'required',
     ];
 
-    public function mount($id = null)
+    public function mount($id = null, $warehouse_id)
     {
+        $this->warehouse_id = $warehouse_id;
         if (empty($id)) {
             $this->mode = 'insert';
-            $this->title = 'Nuovo Magazzino';
+            $this->title = 'Nuovo Reparto';
         } else {
             $this->mode = 'edit';
-            $this->title = 'Modifica Magazzino [' . $id . ']';
-            $this->warehouse = Warehouse::find($id);
-            $this->code = $this->warehouse->code;
-            $this->description = $this->warehouse->description;
+            $this->title = 'Modifica Reparto [' . $id . ']';
+            $this->type = WarehouseType::find($id);
+            $this->code = $this->type->code;
+            $this->description = $this->type->description;
         }
     }
 
@@ -51,18 +53,13 @@ class WarehouseModalEdit extends Modal
         try {
             DB::transaction(
                 function () use ($validatedData) {
-                    if (empty($this->warehouse)) {
-                        $warehouse = Warehouse::create($validatedData);
-                        $ubic_dafault_code='00#';
-                        $ubic_dafault_descr='Default Ubic per Magazzino: '.$this->code;
-                        Ubication::create([
-                            'code'=> $ubic_dafault_code,
-                            'description'=> $ubic_dafault_descr,
-                            'warehouse_id'=> $warehouse->id,
-                        ]);
+                    $validatedData = array_merge($validatedData, ['warehouse_id' => $this->warehouse_id]);
+                    if (empty($this->type)) {
+                        $ubic = WarehouseType::create($validatedData);
                     } else {
-                        $this->warehouse->update($validatedData);
+                        $this->type->update($validatedData);
                     }
+
                 }
             );
         } catch (\Throwable $th) {
@@ -73,7 +70,7 @@ class WarehouseModalEdit extends Modal
                 Notification::send(
                     $user,
                     new DefaultMessageNotify(
-                        $title = 'Creazione Magazzino - [' . $this->code . ']!',
+                        $title = 'Creazione Reparto - [' . $this->code . ']!',
                         $body = 'Errore: [' . $th->getMessage() . ']',
                         $link = '#',
                         $level = 'error'
@@ -92,7 +89,7 @@ class WarehouseModalEdit extends Modal
 
     public function render()
     {
-        return view('livewire.warehouses.warehouse-modal-edit');
+        return view('livewire.warehouses.types.type-modal-edit');
     }
 
 

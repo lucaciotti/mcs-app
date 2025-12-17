@@ -3,10 +3,14 @@
 namespace App\Http\Livewire\Products;
 
 use App\Http\Livewire\Layouts\DynamicContent;
+use Illuminate\Support\Facades\Session;
 
 class Content extends DynamicContent
 {
     public $refresh_table;
+    public $stock_year;
+    public $order_by_stock;
+    public $years;
 
     public $listeners = [
         'dynamic-content.collapse' => 'collapse',
@@ -15,9 +19,30 @@ class Content extends DynamicContent
         'refreshDatatable' => 'tableRefreshed',
     ];
 
+    public function mount()
+    {
+        $this->stock_year = Session::get('products.stock.year');
+        $this->order_by_stock = Session::get('products.stock.order_by_stock');
+    }
+
     public function render()
     {
+        $this->years = [2024, 2025, 2026];
         return view('livewire.products.content');
+    }
+
+    public function updatedStockYear()
+    {
+        Session::put('products.stock.year', $this->stock_year);
+        $this->emit('refreshDatatable');
+        $this->emit('clearSelected');
+    }
+
+    public function updatedOrderByStock()
+    {
+        Session::put('products.stock.order_by_stock', $this->order_by_stock);
+        $this->emit('refreshDatatable');
+        $this->emit('clearSelected');
     }
 
     public function tableHasToBeRefreshed()

@@ -49,45 +49,46 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
             // $stockQta = $row[4];
             $codUbi = '';
             $codMag = '';
-            $codProd = $row[0];
-            $descr = Str::upper($row[1]);
-            $um = Str::upper($row[2]);
-            $stockQta = $row[3];
-            $barcode = $row[4];
+            $codProd = $row[1];
+            $descr = Str::upper($row[2]);
+            $um = Str::upper($row[3]);
+            $stockQta = $row[4];
+            $costUn = $row[5];
+            $barcode = $row[6];
 
             $year = (new DateTime())->format('Y');
 
-            if($codMag==''){
-                $codMag = '00';
-            }
-            if ($codUbi == '') {
-                $codUbi = '00';
-            }
+            // if($codMag==''){
+            //     $codMag = '00';
+            // }
+            // if ($codUbi == '') {
+            //     $codUbi = '00';
+            // }
 
-            try {
-                $warehouse = Warehouse::where('code', $codMag)->first();
-                if (!$warehouse) {
-                    $warehouse = Warehouse::create([
-                        'code' => $codMag,
-                        'description' => 'Mag. ' . $codMag
-                    ]);
-                }
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            // try {
+            //     $warehouse = Warehouse::where('code', $codMag)->first();
+            //     if (!$warehouse) {
+            //         $warehouse = Warehouse::create([
+            //             'code' => $codMag,
+            //             'description' => 'Mag. ' . $codMag
+            //         ]);
+            //     }
+            // } catch (\Throwable $th) {
+            //     report($th);
+            // }
 
-            try {
-                $ubic = Ubication::where('code', $codUbi)->first();
-                if (!$ubic) {
-                    $ubic = Ubication::create([
-                        'code' => $codUbi,
-                        'description' => 'Ubi. ' . $codUbi,
-                        'warehouse_id' => $warehouse->id
-                    ]);
-                }
-            } catch (\Throwable $th) {
-                report($th);
-            }
+            // try {
+            //     $ubic = Ubication::where('code', $codUbi)->first();
+            //     if (!$ubic) {
+            //         $ubic = Ubication::create([
+            //             'code' => $codUbi,
+            //             'description' => 'Ubi. ' . $codUbi,
+            //             'warehouse_id' => $warehouse->id
+            //         ]);
+            //     }
+            // } catch (\Throwable $th) {
+            //     report($th);
+            // }
             
 
             try {
@@ -97,11 +98,13 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
                         'code' => $codProd,
                         'description' => $descr,
                         'unit' => $um,
+                        'cost' => $costUn,
                         'barcode' => $barcode
                     ]);
                 } else {
                     $prod->description = $descr;
                     $prod->unit = $um;
+                    $prod->cost = $costUn;
                     if (!empty($barcode)) $prod->barcode = $barcode;
                     $prod->save();
                 }
@@ -111,11 +114,10 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
             
 
             try {
-                $stock = ProductStock::where('product_id', $prod->id)->where('ubic_id', $ubic->id)->where('year', $year)->first();
+                $stock = ProductStock::where('product_id', $prod->id)->where('year', $year)->first();
                 if (!$stock) {
                     ProductStock::create([
                         'product_id' => $prod->id,
-                        'ubic_id' => $ubic->id,
                         'year' => $year,
                         'stock' => $stockQta
                     ]);

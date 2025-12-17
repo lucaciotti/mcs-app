@@ -62,7 +62,7 @@ $leftSidebar = [
         'laratrust'  => ['users-create'],
     ],
     [
-        'text'        => ' Magazzini & Ubicazioni',
+        'text'        => ' Magazzini, Reparti e Ubicazioni',
         'url'         => 'warehouses',
         'icon'        => 'fas fa-warehouse',
         'laratrust'  => ['users-create'],

@@ -4,11 +4,38 @@ namespace App\Http\Livewire\Products;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Product;
+use Illuminate\Support\Facades\Session;
 
 class ProductsTable extends DataTableComponent
 {
     protected $model = Product::class;
+    public $stock_year;
+    public $order_by_stock;
+
+    public function builder(): Builder
+    {
+        $this->stock_year = (int) Session::get('products.stock.year');
+        $this->order_by_stock = Session::get('products.stock.order_by_stock');
+        if($this->order_by_stock){
+            return Product::query()
+                ->leftJoin('product_stocks', function ($join) {
+                    $join->on('products.id', '=', 'product_stocks.product_id');
+                    $join->where('product_stocks.year', '=', intval($this->stock_year));
+                    // $join->on('product_stocks.year', '=', intval($this->stock_year));
+                })->orderBy('product_stocks.stock', 'desc');
+        } else {
+            return Product::query();
+        }
+    }
+
+    // public function mount()
+    // {
+    //     // $this->stock_year = (int) Session::get('products.stock.year') ?? 2024;
+    //     // dd($this->stock_year);
+    //     // $this->stock_year = 202;
+    // }
 
     public function configure(): void
     {
@@ -51,6 +78,14 @@ class ProductsTable extends DataTableComponent
             Column::make("UM", "unit")
                 ->searchable()
                 ->sortable(),
+            Column::make("Costo", "cost")
+                ->searchable()
+                ->sortable(),
+            Column::make("Giacenza")
+                ->label(
+                    fn($row, Column $column) => $this->getStock($row)
+                )
+                ->searchable(),
             Column::make("Barcode", "barcode")
             ->searchable()
                 ->sortable(),
@@ -60,5 +95,12 @@ class ProductsTable extends DataTableComponent
                 )->html()
                 ->sortable(),
         ];
+    }
+
+    public function getStock($row)
+    {
+        // dd($row);
+        $this->stock_year = (int) Session::get('products.stock.year') ?? 2024;
+        return $row->stocks()->where('year', $this->stock_year)->first()->stock ?? 0;
     }
 }

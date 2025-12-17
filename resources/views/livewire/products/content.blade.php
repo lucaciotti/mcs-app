@@ -1,19 +1,21 @@
 <x-layouts.dynamic-content collapsed='{{ $collapsed }}'>
     <x-slot:content>
 
-        {{-- <div class="card">
+        <div class="card">
             <div class="card-body">
                 <div style="">
-                    <x-adminlte-select name="plantype_id" label="Tipo di Pianificazione" error-key="plantype_id"
-                        wire:model="plantype_id" style="text-align: center;" class="text-bold">
-                        @foreach ($plantypes as $plantype)
-                        <option value='{{ $plantype->id }}'><strong>{{ $plantype->name }}</strong> - {{
-                            $plantype->description }}</option>
+                    <x-adminlte-select name="stock_year" label="Anno Giacenza" error-key="stock_year" wire:model="stock_year" style="text-align: center;" class="text-bold">
+                        @foreach ($years as $year)
+                        <option value='{{ $year }}'>{{$year }}</option>
                         @endforeach
                     </x-adminlte-select>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="order_by_stock" label="Ordine per giacenza" error-key="order_by_stock" wire:model="order_by_stock">
+                        <label class="form-check-label" for="order_by_stock">Ordina per Giacenza</label>
+                    </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         <div class="card">
             <div class="card-header">

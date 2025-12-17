@@ -29,28 +29,33 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
     {
         $rows = [];
         $aProducts = [];
-        $aUbi = [];
+        $aRefs = [];
         $allRows = InventorySimple::whereIn('id', $this->invIds)->with('product')->get();
         foreach ($allRows as $row) {
             $idProd = $row->product_id;
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
-            $ubi = $row->ubication;
-            $refUbi = $codProd . '-' . $ubi;
+            $warehouse_id = $row->warehouse_id;
+            $mag = $row->warehouse->code;
+            $warehouse_type_id = $row->warehouse_type_id;
+            $reparto = $row->warehouseType->code;
+            $refRow = $codProd . '-' . $mag . '-' . $reparto;
+            $cost = $row->product->cost;
+            $giac = $row->product->stocks()->where('year', 2025)->first()->stock ?? 0;
             if(!in_array($idProd, $aProducts)){
-                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
+                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_id', $warehouse_type_id)->sum('qty');
                 if($totQta>0){
-                    array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
+                    array_push($rows, [$codProd, $descr, $mag, $reparto, $um, $totQta, $giac, $cost]);
                     array_push($aProducts, $idProd);
-                    array_push($aUbi, $refUbi);
+                    array_push($aRefs, $refRow);
                 }
             } else {
-                if(!in_array($refUbi, $aUbi)) {
-                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('ubication', $ubi)->sum('qty');
+                if(!in_array($refRow, $aRefs)) {
+                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_id', $warehouse_type_id)->sum('qty');
                     if ($totQta > 0) {
-                        array_push($rows, [$codProd, $descr, $ubi, $um, $totQta]);
-                        array_push($aUbi, $refUbi);                    
+                        array_push($rows, [$codProd, $descr, $mag, $reparto, $um, $totQta, $giac, $cost]);
+                        array_push($aRefs, $refRow);                    
                     }
                 }
             }
@@ -60,7 +65,7 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
 
     public function headings(): array
     {
-        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'Ubicazione', 'UM', 'Qta'];
+        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'Magazzino', 'Reparto', 'UM', 'Qta Inv', 'Giac. Prec.', 'Costo'];
         return $head;
     }
 
@@ -81,15 +86,17 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
     public function columnFormats(): array
     {
         return [
-            'A' => NumberFormat::FORMAT_NUMBER,
-            // 'A' => NumberFormat::FORMAT_TEXT,
+            'A' => NumberFormat::FORMAT_TEXT,
+            'F' => NumberFormat::FORMAT_NUMBER,
+            'G' => NumberFormat::FORMAT_NUMBER,
+            'H' => NumberFormat::FORMAT_NUMBER,
         ];
     }
 
 
     public function map($row): array
     {
-        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3], $row[4]];
+        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3], $row[4], $row[5], $row[6], $row[7], $row[8]];
         return $body;
     }
 }

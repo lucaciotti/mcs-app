@@ -37,10 +37,12 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
+            $cost = $row->product->cost;
+            $giac = $row->product->stocks()->where('year', 2025)->first()->stock ?? 0;
             if(!in_array($idProd, $aProducts)){
                 $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->sum('qty');
                 if($totQta>0){
-                    array_push($rows, [$codProd, $descr, $um, $totQta]);
+                    array_push($rows, [$codProd, $descr, $um, $totQta, $giac, $cost]);
                     array_push($aProducts, $idProd);
                 }
             }
@@ -50,7 +52,7 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
 
     public function headings(): array
     {
-        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta'];
+        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta Inv', 'Giac. Prec.', 'Costo'];
         return $head;
     }
 
@@ -74,13 +76,15 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
             // 'A' => NumberFormat::FORMAT_NUMBER,
             'A' => NumberFormat::FORMAT_TEXT,
             'D' => NumberFormat::FORMAT_NUMBER,
+            'E' => NumberFormat::FORMAT_NUMBER,
+            'F' => NumberFormat::FORMAT_NUMBER,
         ];
     }
 
 
     public function map($row): array
     {
-        $body = [strval($row[0]), $row[1], $row[2], $row[3]];
+        $body = [strval($row[0]), $row[1], $row[2], $row[3], $row[4], $row[5]];
         return $body;
     }
 

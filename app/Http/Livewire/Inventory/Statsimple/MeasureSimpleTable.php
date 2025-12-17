@@ -7,6 +7,11 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
+use App\Models\Warehouse;
+use App\Models\WarehouseType;
+use Illuminate\Support\Arr;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 use Session;
 
 class MeasureSimpleTable extends DataTableComponent
@@ -72,7 +77,14 @@ class MeasureSimpleTable extends DataTableComponent
             Column::make("Descr. Prodotto", "product.description")
                 ->sortable()
                 ->searchable(),
+            Column::make("Magazzino", "warehouse.code")
+                ->sortable()
+                ->searchable(),
+            Column::make("Reparto", "warehouseType.code")
+                ->sortable()
+                ->searchable(),
             Column::make("Ubicazione", "ubication")
+                ->deselected()
                 ->sortable()
                 ->searchable(),
             Column::make("U.M.", "product.unit")
@@ -97,6 +109,65 @@ class MeasureSimpleTable extends DataTableComponent
     public function getAuditCreatedUser($row, $column)
     {
         return $row->audits()->first()->user->name;
+    }
+
+    public function filters(): array
+    {
+        $magCollect = Warehouse::get()->toArray();
+        $magCollectPluck = Arr::pluck($magCollect, 'code', 'id');
+        $magList = ['' => 'Tutti'];
+        foreach ($magCollectPluck as $key => $value) {
+            $magList[$key] = $value;
+        }
+
+        $repCollect = WarehouseType::get()->toArray();
+        $repCollectPluck = Arr::pluck($repCollect, 'code', 'id');
+        $repList = ['' => 'Tutti'];
+        foreach ($repCollectPluck as $key => $value) {
+            $repList[$key] = $value;
+        }
+        return [
+            SelectFilter::make('Magazzino', 'warehouse_id')
+                ->options($magList)
+                ->filter(function (Builder $builder, string $value) {
+                    $valueFilter = ($value != '') ? intval($value) : 0;
+                    if ($valueFilter > 0) {
+                        $builder->where('inventory_simples.warehouse_id', $valueFilter);
+                    } else {
+                        $builder->where('inventory_simples.warehouse_id', '>', $valueFilter);
+                    }
+                }),
+
+            SelectFilter::make('Reparto', 'warehouse_id')
+                ->options($repList)
+                ->filter(function (Builder $builder, string $value) {
+                    $valueFilter = ($value != '') ? intval($value) : 0;
+                    if ($valueFilter > 0) {
+                        $builder->where('inventory_simples.warehouse_type_id', $valueFilter);
+                    } else {
+                        $builder->where('inventory_simples.warehouse_type_id', '>', $valueFilter);
+                    }
+                }),
+
+            // SelectFilter::make('Valido', 'active')
+            //     ->options([
+            //         '' => 'Tutti',
+            //         'yes' => 'Si',
+            //         'no' => 'No',
+            //     ])
+            //     ->filter(function (Builder $builder, string $value) {
+            //         $valueFilter = ($value == 'yes') ? true : (($value == 'no') ? false : null);
+            //         $builder->where('active', $valueFilter);
+            //     }),
+
+            TextFilter::make('Ubicazione', 'ubication')
+                ->config([
+                    'placeholder' => 'Cerca Ubicazione',
+                ])
+                ->filter(function (Builder $builder, string $value) {
+                    $builder->where('ubication', 'like', '%' . $value . '%');
+                }),
+        ];
     }
 
     public function bulkActions(): array

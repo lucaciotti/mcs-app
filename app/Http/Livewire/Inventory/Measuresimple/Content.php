@@ -9,11 +9,21 @@ use App\Models\InventorySessionTicket;
 use App\Models\InventorySimple;
 use App\Models\Product;
 use App\Models\Ubication;
+use App\Models\Warehouse;
+use App\Models\WarehouseType;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Str;
 
 class Content extends DynamicContent
 {
+    public $warehouse_id;
+    public $warehouse_name;
+    public $warehouses;
+    public $warehouse_type_id;
+    public $warehouse_type_name;
+    public $warehouse_types = [];
+
     public $barcode;
     public $codMag;
     public $codProd;
@@ -42,7 +52,7 @@ class Content extends DynamicContent
     public $inventory_ticket_id;
     public $ticket;
     public $product_id;
-    public $warehouse_id;
+    // public $warehouse_id;
     public $ubic_id;
     public $qty;
 
@@ -63,6 +73,8 @@ class Content extends DynamicContent
     {
         return
             [
+            'warehouse_id' => ['required', 'numeric'],
+            'warehouse_type_id' => ['required', 'numeric'],
             'product_id' => ['required', 'numeric'],
             'ubication' => ['nullable', 'string'],
             'qty' => ['required', 'numeric'],
@@ -82,6 +94,18 @@ class Content extends DynamicContent
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();
         }
         $this->inventory_session_id = $invSession->id;
+
+        // SESSIONE MAGAZZINO + REPARTO
+        $this->warehouses = Warehouse::all();
+        $this->warehouse_id = Session::get('inventory.session.warehouse_id');
+        if($this->warehouse_id){
+            $this->updatedWarehouseId();
+        }
+        $this->warehouse_type_id = Session::get('inventory.session.warehouse_type_id');
+        if($this->warehouse_type_id){
+            $this->updatedWarehouseTypeId();
+        }
+
         $this->emit('initfocus');
     }
     
@@ -122,6 +146,18 @@ class Content extends DynamicContent
         // }
         
         // $this->ubic_id = $this->ubication->id;
+    }
+
+    public function updatedWarehouseId()
+    {
+        $this->warehouse_types = WarehouseType::where('warehouse_id', $this->warehouse_id)->get();
+        Session::put('inventory.session.warehouse_id', $this->warehouse_id);
+        // $this->warehouse_types = WarehouseType::where('warehouse_id', $this->warehouse_id)->get();
+    }
+
+    public function updatedWarehouseTypeId()
+    {
+        Session::put('inventory.session.warehouse_type_id', $this->warehouse_type_id);
     }
 
     public function toogleSearch()
@@ -166,6 +202,15 @@ class Content extends DynamicContent
     }
 
     public function resetInv(){
+        $this->reset();
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->initInvSession();
+    }
+
+    public function resetAllInv(){
+        Session::forget('inventory.session.warehouse_id');
+        Session::forget('inventory.session.warehouse_type_id');
         $this->reset();
         $this->resetErrorBag();
         $this->resetValidation();

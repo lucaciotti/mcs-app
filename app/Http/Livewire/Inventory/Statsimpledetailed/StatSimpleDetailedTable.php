@@ -55,6 +55,10 @@ class StatSimpleDetailedTable extends DataTableComponent
 
         
         $query =  InventorySimple::query()->selectRaw('MAX(id) as id')->select('inventory_simples.product_id');
+        $query = $query->selectRaw('MAX(products.code) as product_code');
+        $query = $query->selectRaw('MAX(products.description) as product_description');
+        $query = $query->selectRaw('MAX(products.cost) as product_cost');
+        $query = $query->selectRaw('MAX(products.unit) as product_unit');
         $query = $query->selectRaw('SUM(qty) as qta_inv');
         $query = $query->selectRaw('IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0) as qta_giac');
         $query = $query->selectRaw('SUM(qty)-IF(MAX(product_stocks.stock)>0, MAX(product_stocks.stock),0) as delta');
@@ -127,13 +131,33 @@ class StatSimpleDetailedTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Prodotto", "product.code")
+            // Column::make("Prodotto", "product.code")
+            //     ->searchable(),
+            // Column::make("Descr. Prodotto", "product.description")
+            //     ->searchable(),
+            // Column::make("Costo Prodotto", "product.cost")
+            //     ->searchable(),
+            // Column::make("U.M.", "product.unit")
+            //     ->searchable(),
+            Column::make("Prodotto")
+                ->label(
+                    fn ($row, Column $column) =>  $row['product_code']
+                )->html()
                 ->searchable(),
-            Column::make("Descr. Prodotto", "product.description")
+            Column::make("Descr. Prodotto")
+                ->label(
+                    fn ($row, Column $column) =>  $row['product_description']
+                )->html()
                 ->searchable(),
-            Column::make("Costo Prodotto", "product.cost")
+            Column::make("Costo Prodotto")
+                ->label(
+                    fn ($row, Column $column) =>  $row['product_cost']
+                )->html()
                 ->searchable(),
-            Column::make("U.M.", "product.unit")
+            Column::make("U.M.")
+                ->label(
+                    fn ($row, Column $column) =>  $row['product_unit']
+                )->html()
                 ->searchable(),
             Column::make("Qta Inv.")
                 ->label(

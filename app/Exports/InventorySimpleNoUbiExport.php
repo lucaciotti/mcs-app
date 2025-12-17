@@ -75,9 +75,9 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
         return [
             // 'A' => NumberFormat::FORMAT_NUMBER,
             'A' => NumberFormat::FORMAT_TEXT,
-            'D' => NumberFormat::FORMAT_NUMBER,
-            'E' => NumberFormat::FORMAT_NUMBER,
-            'F' => NumberFormat::FORMAT_NUMBER,
+            'D' => NumberFormat::FORMAT_NUMBER_00,
+            'E' => NumberFormat::FORMAT_NUMBER_00,
+            'F' => NumberFormat::FORMAT_CURRENCY_EUR,
         ];
     }
 

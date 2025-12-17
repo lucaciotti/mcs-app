@@ -87,9 +87,9 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
     {
         return [
             'A' => NumberFormat::FORMAT_TEXT,
-            'F' => NumberFormat::FORMAT_NUMBER,
-            'G' => NumberFormat::FORMAT_NUMBER,
-            'H' => NumberFormat::FORMAT_NUMBER,
+            'F' => NumberFormat::FORMAT_NUMBER_00,
+            'G' => NumberFormat::FORMAT_NUMBER_00,
+            'H' => NumberFormat::FORMAT_CURRENCY_EUR,
         ];
     }
 

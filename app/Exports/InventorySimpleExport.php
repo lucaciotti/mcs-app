@@ -44,7 +44,7 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
             $cost = $row->product->cost;
             $giac = $row->product->stocks()->where('year', 2025)->first()->stock ?? 0;
             if(!in_array($idProd, $aProducts)){
-                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_id', $warehouse_type_id)->sum('qty');
+                $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_type_id', $warehouse_type_id)->sum('qty');
                 if($totQta>0){
                     array_push($rows, [$codProd, $descr, $mag, $reparto, $um, $totQta, $giac, $cost]);
                     array_push($aProducts, $idProd);
@@ -52,7 +52,7 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
                 }
             } else {
                 if(!in_array($refRow, $aRefs)) {
-                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_id', $warehouse_type_id)->sum('qty');
+                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->where('warehouse_id', $warehouse_id)->where('warehouse_type_id', $warehouse_type_id)->sum('qty');
                     if ($totQta > 0) {
                         array_push($rows, [$codProd, $descr, $mag, $reparto, $um, $totQta, $giac, $cost]);
                         array_push($aRefs, $refRow);                    

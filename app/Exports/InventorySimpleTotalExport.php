@@ -8,7 +8,6 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -17,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithStyles, WithColumnFormatting, WithCustomCsvSettings
+class InventorySimpleTotalExport implements FromArray, WithMapping, WithHeadings, ShouldAutoSize, WithStyles, WithColumnFormatting
 {
     protected $invIds;
 
@@ -30,20 +29,40 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
     {
         $rows = [];
         $aProducts = [];
-        $aUbi = [];
+        $aRefs = [];
         $allRows = InventorySimple::whereIn('id', $this->invIds)->with('product')->get();
         foreach ($allRows as $row) {
             $idProd = $row->product_id;
             $codProd = $row->product->code;
             $descr = $row->product->description;
             $um = $row->product->unit;
+            $warehouse_id = $row->warehouse_id;
+            $mag = $row->warehouse->code;
+            $warehouse_type_id = $row->warehouse_type_id;
+            $reparto = $row->warehouseType->code;
+            $refRow = $codProd;
             $cost = $row->product->cost;
             $giac = $row->product->stocks()->where('year', 2025)->first()->stock ?? 0;
             if(!in_array($idProd, $aProducts)){
                 $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->sum('qty');
+                $deltaQta = $totQta-$giac;
+                $costInv = $totQta*$cost;
+                $costDelta = $deltaQta * $cost;
                 if($totQta>0){
-                    array_push($rows, [$codProd, $descr, $um, $totQta, $giac, $cost]);
+                    array_push($rows, [$codProd, $descr, $um, $totQta, $giac, $cost, $deltaQta, $costInv, $costDelta]);
                     array_push($aProducts, $idProd);
+                    array_push($aRefs, $refRow);
+                }
+            } else {
+                if(!in_array($refRow, $aRefs)) {
+                    $totQta = InventorySimple::whereIn('id', $this->invIds)->where('product_id', $idProd)->sum('qty');
+                    $deltaQta = $totQta - $giac;
+                    $costInv = $totQta * $cost;
+                    $costDelta = $deltaQta * $cost;
+                    if ($totQta > 0) {
+                        array_push($rows, [$codProd, $descr, $um, $totQta, $giac, $cost, $deltaQta, $costInv, $costDelta]);
+                        array_push($aRefs, $refRow);                    
+                    }
                 }
             }
         }
@@ -52,7 +71,7 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
 
     public function headings(): array
     {
-        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta Inv'];
+        $head = ['Cod.Prodotto', 'Descr.Prodotto', 'UM', 'Qta Inv', 'Giac. Prec.', 'Costo', 'Delta Inv-Giac', 'Costo Inv.', 'Costo Delta'];
         return $head;
     }
 
@@ -73,28 +92,20 @@ class InventorySimpleNoUbiExport implements FromArray, WithMapping, WithHeadings
     public function columnFormats(): array
     {
         return [
-            // 'A' => NumberFormat::FORMAT_NUMBER,
-            // 'A' => NumberFormat::FORMAT_TEXT,
-            'A' => NumberFormat::FORMAT_GENERAL,
+            'A' => NumberFormat::FORMAT_TEXT,
             'D' => NumberFormat::FORMAT_NUMBER_00,
-            // 'E' => NumberFormat::FORMAT_NUMBER_00,
-            // 'F' => NumberFormat::FORMAT_CURRENCY_EUR,
+            'E' => NumberFormat::FORMAT_NUMBER_00,
+            'F' => NumberFormat::FORMAT_CURRENCY_EUR,
+            'G' => NumberFormat::FORMAT_NUMBER_00,
+            'H' => NumberFormat::FORMAT_CURRENCY_EUR,
+            'I' => NumberFormat::FORMAT_CURRENCY_EUR,
         ];
     }
 
 
     public function map($row): array
     {
-        $body = [strval($row[0]), $row[1], $row[2], $row[3]];
+        $body = [strval($row[0]), $row[1], $row[2] ?? '', $row[3], $row[4], $row[5], $row[6], $row[7], $row[8]];
         return $body;
-    }
-
-    public function getCsvSettings(): array
-    {
-        return [
-            // 'delimiter' => "\t"
-            // 'input_encoding' => 'ISO-8859-1'
-            'delimiter' => ";"
-        ];
     }
 }

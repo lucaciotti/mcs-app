@@ -187,8 +187,9 @@ class MeasureSimpleTable extends DataTableComponent
             $actions = [
                 'deleteRows' => 'Cancella Sparata',
                 'hr1' => '---------------------------',
-                'xlsExport' => 'Export Xls',
-                'csvExport' => 'Export CSV',
+                'xlsExportTot' => 'Export Xls Totali+Costo',
+                'xlsExport' => 'Export Xls Magazzino/Reparto',
+                'csvExport' => 'Export Xls GESTIONALE',
             ];
         }
 
@@ -200,6 +201,14 @@ class MeasureSimpleTable extends DataTableComponent
         foreach ($this->getSelected() as $id) {
             $tasks = InventorySimple::find($id)->update(['qty' => 0]);
         }
+    }
+
+    public function xlsExportTot()
+    {
+        Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
+        return redirect()->route('exportxls_simple_total');
+        // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
+        // dd($this->getSelected());
     }
 
     public function xlsExport()

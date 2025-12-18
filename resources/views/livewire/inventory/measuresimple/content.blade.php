@@ -12,7 +12,7 @@
                             $wh->description }}</option>
                         @endforeach
                     </x-adminlte-select>
-                    <x-adminlte-select name="warehouse_type_id" label="Tipo di Pianificazione" error-key="warehouse_type_id"
+                    <x-adminlte-select name="warehouse_type_id" label="Reparto" error-key="warehouse_type_id"
                         wire:model="warehouse_type_id" style="text-align: center;" class="text-bold">
                         <option value=''><i>Seleziona Reparto</i></option>
                         @foreach ($warehouse_types as $wh_t)

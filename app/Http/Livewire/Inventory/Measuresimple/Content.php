@@ -17,6 +17,8 @@ use Str;
 
 class Content extends DynamicContent
 {
+    public $user_id;
+
     public $warehouse_id;
     public $warehouse_name;
     public $warehouses;
@@ -73,6 +75,7 @@ class Content extends DynamicContent
     {
         return
             [
+            'user_id' => ['required', 'numeric'],
             'warehouse_id' => ['required', 'numeric'],
             'warehouse_type_id' => ['required', 'numeric'],
             'product_id' => ['required', 'numeric'],
@@ -89,6 +92,8 @@ class Content extends DynamicContent
 
     public function initInvSession()
     {
+        $this->user_id = auth()->user()->id;
+
         $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('date_end', '>', Carbon::now())->where('active', true)->first();
         if (!$invSession) {
             $invSession = InventorySession::where('date_start', '<', Carbon::now())->where('active', true)->first();

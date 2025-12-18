@@ -9,6 +9,7 @@ use App\Models\InventoryMeasurement;
 use App\Models\InventorySimple;
 use App\Models\Warehouse;
 use App\Models\WarehouseType;
+use Auth;
 use Illuminate\Support\Arr;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
@@ -23,8 +24,12 @@ class MeasureSimpleTable extends DataTableComponent
     public function builder(): Builder
     {
         $this->invSession_id = Session::get('inventory.session.id');
-        return InventorySimple::query()
-            ->where('inventory_session_id', $this->invSession_id);
+        $query = InventorySimple::query()
+                ->where('inventory_session_id', $this->invSession_id);
+        if(!Auth::user()->hasPermission('tasks-update')){
+            $query = $query->where('user_id', auth()->user()->id);
+        }
+        return $query;
     }
 
     protected function getListeners()
@@ -64,6 +69,8 @@ class MeasureSimpleTable extends DataTableComponent
                 }
                 return [];
             });
+
+        $this->setDefaultSort('updated_at', 'desc');
     }
 
     public function columns(): array
@@ -97,10 +104,13 @@ class MeasureSimpleTable extends DataTableComponent
                     fn ($value, $row, Column $column) => '<span class="fa fa-history pr-1"></span>' . $value->format('d-m-Y')
                 )->html()
                 ->sortable(),
-            Column::make("Caricato da")
-                ->label(
-                    fn ($row, Column $column) => $this->getAuditCreatedUser($row, $column)
-                )
+            // Column::make("Caricato da")
+            //     ->label(
+            //         fn ($row, Column $column) => $this->getAuditCreatedUser($row, $column)
+            //     )
+            //     ->sortable()
+            //     ->searchable(),
+            Column::make("Caricato da", 'user.name')
                 ->sortable()
                 ->searchable(),
         ];
@@ -172,12 +182,15 @@ class MeasureSimpleTable extends DataTableComponent
 
     public function bulkActions(): array
     {
-        $actions = [
-            'deleteRows' => 'Cancella Sparata',
-            'hr1' => '---------------------------',
-            'xlsExport' => 'Export Xls',
-            'csvExport' => 'Export CSV',
-        ];
+        $actions = [];
+        if (Auth::user()->hasPermission('tasks-update')) {
+            $actions = [
+                'deleteRows' => 'Cancella Sparata',
+                'hr1' => '---------------------------',
+                'xlsExport' => 'Export Xls',
+                'csvExport' => 'Export CSV',
+            ];
+        }
 
         return $actions;
     }

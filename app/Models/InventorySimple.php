@@ -58,8 +58,14 @@ class InventorySimple extends Model implements Auditable
         return $this->hasOne(WarehouseType::class, 'id', 'warehouse_type_id');
     }
 
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     public function userCreated()
     {
         return $this->audits()->first()->user;
     }
+
 }

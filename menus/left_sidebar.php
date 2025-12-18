@@ -15,14 +15,14 @@ $leftSidebar = [
     [
         'text'        => ' Misurazioni Inventario',
         'url'         => 'inventory/measurements_simple',
-        'icon'        => 'fas fa-tasks',
+        'icon'        => 'fas fa-barcode',
         'laratrust'  => ['completed-read'],
     ],
     [
         'text'        => ' Gestione Inventario',
         'url'         => 'inventory/stats_simple',
-        'icon'        => 'fas fa-clipboard-list',
-        'laratrust'  => ['users-create'],
+        'icon'        => 'fas fa-tasks',
+        'laratrust'  => ['completed-read'],
     ],
 
     [

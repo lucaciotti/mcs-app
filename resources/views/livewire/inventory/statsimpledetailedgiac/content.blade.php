@@ -33,19 +33,25 @@
                         <option value='{{ $key }}'><strong>{{ $value }}</strong></option>
                         @endforeach
                     </x-adminlte-select>
-                    <x-adminlte-select name="stock_year" label="Anno Giacenza" error-key="stock_year" wire:model="stock_year"
-                        style="text-align: center;" class="text-bold">
-                        @foreach ($years as $year)
-                        <option value='{{ $year }}'>{{$year }}</option>
-                        @endforeach
-                    </x-adminlte-select>
+                    <div class="form-group col-lg-6">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="show_only_no_inv" label="Mostra solo codici NON inventariati"
+                            error-key="show_only_no_inv" wire:model="show_only_no_inv">
+                            <label class="form-check-label" for="show_only_no_inv">Mostra solo codici NON inventariati</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="show_only_inv" label="Mostra solo codici inventariati"
+                                error-key="show_only_inv" wire:model="show_only_inv">
+                            <label class="form-check-label" for="show_only_inv">Mostra solo codici inventariati</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Giacenze Inventariali</h3>
+                <h3 class="card-title">Prodotti in giacenza - inventariati</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" title="Font Size Smaller" id="card-text-size">
                         <i class="fas fa-text-height fa-xs"></i>
@@ -71,7 +77,7 @@
                 </div>
                 @endif --}}
                 <div style="">
-                    <livewire:inventory.statsimpledetailed.stat-simple-detailed-table />
+                    <livewire:inventory.statsimpledetailedgiac.stat-simple-detailed-table />
                 </div>
             </div>
         </div>

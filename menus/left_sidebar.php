@@ -36,6 +36,12 @@ $leftSidebar = [
         'icon'        => 'fas fa-chart-bar',
         'laratrust'  => ['users-create'],
     ],
+    [
+        'text'        => 'Statistiche Prodotti in giacenza',
+        'url'         => 'inventory/stats_simple_detailed_giac',
+        'icon'        => 'fas fa-chart-bar',
+        'laratrust'  => ['users-create'],
+    ],
 
     // [
     //     'header' => 'Inventario Avanzato',

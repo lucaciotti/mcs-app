@@ -34,15 +34,19 @@
                         @if(!$isToogleSearch)
                             <x-adminlte-input name="codProd" label="Codice Prodotto:" placeholder="Codice Prodotto" error-key="codProd" wire:model.lazy="codProd">
                                 <x-slot name="appendSlot">
-                                    <button class="btn btn-sm btn-outline-primary" type="button" onclick="Livewire.emit('modal.open', 'inventory.measuresimple.cam-barcode-reader')" data-toggle="tooltip"
-                                        data-placement="bottom" title="Camera Scan">
-                                        <i class="fas fa-fw fa-camera"></i>
+                                    <button class="btn btn-sm btn-outline-primary" type="button" wire:click="toogleSearch" data-toggle="tooltip"
+                                        data-placement="bottom" title="Ricerca Libera">
+                                        <i class="fas fa-fw fa-search"></i>
                                     </button>
                                 </x-slot>
                             </x-adminlte-input>
-                            <button class="btn btn-outline-primary btn-lg btn-block" type="button" wire:click="toogleSearch" data-toggle="tooltip"
+                            {{-- <button class="btn btn-outline-primary btn-lg btn-block" type="button" wire:click="toogleSearch" data-toggle="tooltip"
                                 data-placement="bottom" title="Ricerca Libera">
                                 <i class="fas fa-fw fa-search"></i>Ricerca Libera
+                            </button> --}}
+                            <button class="btn btn-outline-primary btn-lg btn-block" type="button" onclick="Livewire.emit('modal.open', 'inventory.measuresimple.cam-barcode-reader')" data-toggle="tooltip"
+                                data-placement="bottom" title="Ricerca Libera">
+                                <i class="fas fa-fw fa-camera"></i>Scansiona Barcode
                             </button>
                         @else
                             <x-adminlte-input name="search" label="Ricerca Libera:" placeholder="Ricerca Libera" error-key="search" wire:model="search">

@@ -33,12 +33,12 @@
                         <option value='{{ $key }}'><strong>{{ $value }}</strong></option>
                         @endforeach
                     </x-adminlte-select>
-                    <x-adminlte-select name="stock_year" label="Anno Giacenza" error-key="stock_year" wire:model="stock_year"
-                        style="text-align: center;" class="text-bold">
-                        @foreach ($years as $year)
-                        <option value='{{ $year }}'>{{$year }}</option>
-                        @endforeach
-                    </x-adminlte-select>
+                    <x-adminlte-input name="perc_delta" label="Percentuale Warning Delta" placeholder="perc_delta" type="number" error-key="perc_delta" wire:model="perc_delta"
+                        class="text-right" min=1 max=100 fgroup-class="col-lg-6">
+                        <x-slot name="appendSlot">
+                            <div class="input-group-text bg-dark">%</div>
+                        </x-slot>
+                    </x-adminlte-input>
                 </div>
             </div>
         </div>

@@ -81,7 +81,7 @@ class StatSimpleDetailedTable extends DataTableComponent
         if($this->show_only_inv){
             $query = $query->having('qta_inv', '>', '0');
         }
-        $query = $query->groupBy('code');
+        $query = $query->groupBy('products.id');
         // $query = $query->selectRaw('SUM(qty) as qty_inv');
         if($this->order== 'code'){
             $query = $query->orderBy($this->order);

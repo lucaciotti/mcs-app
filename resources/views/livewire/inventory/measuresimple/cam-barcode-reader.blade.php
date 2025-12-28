@@ -20,34 +20,33 @@
             let html5QRCodeScanner = new Html5QrcodeScanner(
                 // Target element with the ID "reader" and configure settings
                 "reader", 
-                // {
-                //     fps: 10, // Frames per second for scanning
-                //     qrbox: {
-                //         width: 300, // Width of the scanning box
-                //         height: 300, // Height of the scanning box
-                //     },
-                //     showZoomSliderIfSupported: true
-                // }
                 {
-                    fps: 15,
-                    disableFlip: false,
-                    focusMode: {ideal: "continuous"},
-                    advanced: [{ zoom: 2.0 }],
-                    rememberLastUsedCamera: true,
-                    experimentalFeatures: {
-                        useBarCodeDetectorIfSupported: true,
-                    },
-                    willReadFrequently: true,
-                    supportedScanTypes: [
-                        // Html5QrcodeScanType.SCAN_TYPE_FILE,
-                        Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-                    ],
-                    showZoomSliderIfSupported: true,
+                    fps: 24, // Frames per second for scanning
                     qrbox: {
-                        width: window.screen.width < 600 ? 200 : 300, 
-                        height: window.screen.width < 600 ? 200 : 300, 
-                    }, 
-                },
+                        width: 300, // Width of the scanning box
+                        height: 300, // Height of the scanning box
+                    },
+                }
+                // {
+                //     fps: 15,
+                //     disableFlip: false,
+                //     focusMode: {ideal: "continuous"},
+                //     advanced: [{ zoom: 2.0 }],
+                //     rememberLastUsedCamera: true,
+                //     experimentalFeatures: {
+                //         useBarCodeDetectorIfSupported: true,
+                //     },
+                //     willReadFrequently: true,
+                //     supportedScanTypes: [
+                //         // Html5QrcodeScanType.SCAN_TYPE_FILE,
+                //         Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                //     ],
+                //     showZoomSliderIfSupported: true,
+                //     qrbox: {
+                //         width: window.screen.width < 600 ? 200 : 300, 
+                //         height: window.screen.width < 600 ? 200 : 300, 
+                //     }, 
+                // },
             );
         
             // Function executed when the scanner successfully reads a QR Code
@@ -65,8 +64,9 @@
             // html5QRCodeScanner.applyVideoConstraints({facingMode: "environment"}).then(html5QRCodeScanner.render(onScanSuccess));
             setTimeout(function () {
             html5QRCodeScanner.applyVideoConstraints({
-            facingMode: "environment", focusMode: {ideal: "continuous"}
-            , zoom: {ideal: 2.0},
+                facingMode: "environment", 
+                focusMode: {ideal: "continuous"}, 
+                zoom: 2.0,
             });
             }, 2000);
             html5QRCodeScanner.render(onScanSuccess);

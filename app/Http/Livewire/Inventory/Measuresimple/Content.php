@@ -144,6 +144,7 @@ class Content extends DynamicContent
     
     public function updatedCodUbi()
     {
+        $this->ubication = $this->codUbi;
         // $this->ubication = Ubication::where('code', $this->codUbi)->first();
         // if (!$this->ubication) {
         //     $this->addError('codUbi', 'L\'Ubicazione NON è valida!');

@@ -56,7 +56,8 @@ class ProductsImport implements ToCollection, WithStartRow, WithChunkReading, Sk
             $costUn = $row[5];
             $barcode = $row[6];
 
-            $year = (new DateTime())->format('Y');
+            // $year = (new DateTime())->format('Y');
+            $year = 2025;
 
             // if($codMag==''){
             //     $codMag = '00';

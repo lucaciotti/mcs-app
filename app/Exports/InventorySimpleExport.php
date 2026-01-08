@@ -23,6 +23,7 @@ class InventorySimpleExport implements FromArray, WithMapping, WithHeadings, Sho
     public function __construct($invIds)
     {
         $this->invIds = $invIds;
+        ini_set('max_execution_time', 0);
     }
 
     public function array(): array

@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/inventory/exportxls_simple_total', [App\Http\Controllers\InventoryController::class, 'exportXlsSimpleTotal'])->name('exportxls_simple_total');
     Route::get('/inventory/exportxls_simple', [App\Http\Controllers\InventoryController::class, 'exportXlsSimple'])->name('exportxls_simple');
     Route::get('/inventory/exportcsv_simple', [App\Http\Controllers\InventoryController::class, 'exportCsvNoUbiSimple'])->name('exportcsv_simple');
+    Route::get('/inventory/exportstockinv', [App\Http\Controllers\InventoryController::class, 'exportXlsStockInv'])->name('exportstockinv');
 });
 
 Route::name('user::')->group(function () {

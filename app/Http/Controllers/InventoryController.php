@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\InventorySimpleExport;
 use App\Exports\InventorySimpleNoUbiExport;
 use App\Exports\InventorySimpleTotalExport;
+use App\Exports\StockProductInvExport;
 use App\Models\InventorySession;
 use Carbon\Carbon;
 use Excel;
@@ -120,5 +121,14 @@ class InventoryController extends Controller
         // return Excel::download(new InventorySimpleNoUbiExport($inv_ids), $filename, \Maatwebsite\Excel\Excel::CSV);
         $filename = 'Inv_Export_' . Carbon::now()->format('YmdHis') . '.xls';
         return Excel::download(new InventorySimpleNoUbiExport($inv_ids), $filename, \Maatwebsite\Excel\Excel::XLS);
+    }
+
+    public function exportXlsStockInv(Request $req)
+    {
+        // dd();
+        $inv_ids = $req->session()->get('invsimple.xlsExport.inv_ids');
+        $req->session()->forget('invsimple.xlsExport.inv_ids');
+        $filename = 'StockProductInv_Export_' . Carbon::now()->format('YmdHis') . '.xlsx';
+        return Excel::download(new StockProductInvExport($inv_ids), $filename);
     }
 }

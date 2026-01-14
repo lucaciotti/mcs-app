@@ -190,6 +190,7 @@ class MeasureSimpleTable extends DataTableComponent
                 'xlsExportTot' => 'Export Xls Totali+Costo',
                 'xlsExport' => 'Export Xls Magazzino/Reparto',
                 'csvExport' => 'Export Xls GESTIONALE',
+                'xlsExportStockInv' => 'Export Xls Prodotti in giacenza (No Inv)',
             ];
         }
 
@@ -223,6 +224,14 @@ class MeasureSimpleTable extends DataTableComponent
     {
         Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
         return redirect()->route('exportcsv_simple');
+        // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
+        // dd($this->getSelected());
+    }
+
+    public function xlsExportStockInv()
+    {
+        Session::put('invsimple.xlsExport.inv_ids', $this->getSelected());
+        return redirect()->route('exportstockinv');
         // $this->emit('modal.open', 'xls-export.xls-export-modal', ['tasks_ids' => $this->getSelected(), 'type_id' => $this->type_id, 'configs' => $this->buildTasksConfig()]);
         // dd($this->getSelected());
     }
